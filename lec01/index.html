@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="ar" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مبادئ الاقتصاد الجزئي - المحاضرة الأولى | رحلة في عالم الندرة</title>
+    <meta name="description"
+        content="تجربة تفاعلية لفهم مبادئ الاقتصاد الجزئي من خلال سيناريوهات واقعية ومحاكاة بصرية.">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <!-- Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0f172a',
+                            light: '#1e293b',
+                            accent: '#38bdf8',
+                            glow: '#0ea5e9',
+                            success: '#10b981',
+                            warning: '#f59e0b',
+                            danger: '#ef4444'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                        arabic: ['Cairo', 'sans-serif']
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        charge: {
+                            '0%': { transform: 'scaleX(0)' },
+                            '100%': { transform: 'scaleX(1)' }
+                        },
+                        balance: {
+                            '0%, 100%': { transform: 'rotate(10deg)' },
+                            '50%': { transform: 'rotate(-5deg)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #020617;
+            color: #f1f5f9;
+            overflow-x: hidden;
+            font-family: 'Cairo', sans-serif;
+            direction: rtl;
+        }
+
+        /* Dark Glass Effect */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glass-header {
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(56, 189, 248, 0.1);
+        }
+
+        /* Typography & Gradients */
+        .text-gradient {
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .text-gradient-gold {
+            background: linear-gradient(135deg, #fcd34d 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #020617;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #38bdf8;
+        }
+
+        /* Canvas Styles */
+        #particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Interactive Card Hover */
+        .hover-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hover-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(56, 189, 248, 0.3);
+            box-shadow: 0 10px 40px -10px rgba(56, 189, 248, 0.3);
+        }
+
+        /* Range Slider Styling */
+        input[type=range] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #38bdf8;
+            cursor: pointer;
+            margin-top: -8px;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #1e293b;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+
+<body class="antialiased flex flex-col min-h-screen relative selection:bg-brand-accent selection:text-brand-dark">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 glass-header transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                <div
+                    class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-accent to-blue-600 flex items-center justify-center text-white font-black shadow-lg shadow-blue-500/30">
+                    <i class="fa-solid fa-chart-pie"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-bold text-lg tracking-wide text-slate-100 leading-none">الاقتصاد <span
+                            class="text-brand-accent">الجزئي</span></span>
+                    <span class="text-[10px] text-slate-400 font-medium">المحاضرة الأولى</span>
+                </div>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div
+                class="hidden lg:flex gap-1 bg-slate-800/50 p-1 rounded-full border border-slate-700/50 backdrop-blur-md">
+                <a href="../index.html"
+                    class="px-5 py-2 rounded-full text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-700/50 transition-all">الرئيسية</a>
+                <a href="#definitions"
+                    class="px-5 py-2 rounded-full text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-700/50 transition-all">التعريف</a>
+                <a href="#intro"
+                    class="px-5 py-2 rounded-full text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-700/50 transition-all">المشكلة
+                    الاقتصادية</a>
+                <a href="#needs"
+                    class="px-5 py-2 rounded-full text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-700/50 transition-all">الحاجات</a>
+                <a href="#resources"
+                    class="px-5 py-2 rounded-full text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-700/50 transition-all">الموارد</a>
+                <a href="#goods"
+                    class="px-5 py-2 rounded-full text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-700/50 transition-all">السلع</a>
+            </div>
+
+            <button class="lg:hidden text-2xl text-slate-300">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main class="flex-grow">
+
+        <!-- Hero Section -->
+        <header id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+            <!-- Dynamic Background -->
+            <canvas id="particle-canvas"></canvas>
+
+            <div class="container mx-auto px-6 relative z-10 text-center">
+                <div
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-semibold mb-8 backdrop-blur-sm animate-float">
+                    <span class="relative flex h-3 w-3">
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
+                    </span>
+                    رحلة في عالم اتخاذ القرار
+                </div>
+
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-black mb-6 tracking-tight leading-tight text-white drop-shadow-2xl"
+                    data-aos="zoom-in" data-aos-duration="1000">
+                    كيف ندير <br> <span class="text-gradient">الموارد النادرة؟</span>
+                </h1>
+
+                <p class="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto leading-relaxed mb-12" data-aos="fade-up"
+                    data-aos-delay="200">
+                    في عالم تتعدد فيه الرغبات وتتصارع، بينما الموارد محدودة.. يظهر علم الاقتصاد كبوصلة ترشدنا نحو
+                    <span class="text-white font-bold border-b-2 border-brand-accent border-dashed">الخيار
+                        الأمثل</span>.
+                </p>
+
+                <div class="flex flex-col md:flex-row justify-center items-center gap-6" data-aos="fade-up"
+                    data-aos-delay="400">
+                    <a href="#intro"
+                        class="group relative px-8 py-4 bg-brand-accent text-slate-900 rounded-xl font-bold text-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_-10px_rgba(56,189,248,0.6)]">
+                        <div
+                            class="absolute inset-0 w-full h-full bg-white/20 skew-x-12 -translate-x-full group-hover:animate-[shimmer_1s_infinite]">
+                        </div>
+                        <span class="relative flex items-center gap-3">
+                            ابدأ الرحلة
+                            <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
+                        </span>
+                    </a>
+
+                    <!-- WhatsApp Group Hero Button -->
+                    <a href="https://chat.whatsapp.com/KZVcp5IPWOpFqnOaOJKjy9" target="_blank"
+                        class="group relative inline-flex items-center gap-3 px-8 py-4 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-bold text-lg border border-slate-600 hover:border-[#25D366] transition-all hover:scale-105 hover:shadow-[#25D366]/20">
+                        <i class="fa-brands fa-whatsapp text-2xl text-[#25D366]"></i>
+                        <span>الانضمام للجروب</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-slate-500">
+                <i class="fa-solid fa-chevron-down text-2xl"></i>
+            </div>
+        </header>
+
+        <!-- Section 1: Definitions (New from MD) -->
+        <section id="definitions" class="py-20 px-6 bg-slate-900/40 border-b border-slate-800">
+            <div class="container mx-auto max-w-6xl">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-3xl font-bold text-white mb-4">أولاً: تعريف علم الاقتصاد</h2>
+                    <div class="h-1 w-20 bg-brand-accent mx-auto rounded-full"></div>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Def 1 -->
+                    <div class="glass-panel p-8 rounded-2xl md:col-span-1 border border-slate-700 hover:border-brand-accent transition-colors group"
+                        data-aos="fade-up" data-aos-delay="100">
+                        <div
+                            class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-500 transition-colors">
+                            <i class="fa-solid fa-users text-blue-400 group-hover:text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-3">السلوك الإنساني</h3>
+                        <p class="text-slate-400 leading-relaxed text-sm">
+                            هو أحد العلوم الاجتماعية الذي يختص بدراسة <span class="text-brand-accent">السلوك
+                                الإنساني</span> في سعيه لإشباع احتياجاته من السلع والخدمات.
+                        </p>
+                    </div>
+
+                    <!-- Def 2 -->
+                    <div class="glass-panel p-8 rounded-2xl md:col-span-1 border border-slate-700 hover:border-purple-500 transition-colors group relative top-0 md:-top-4 shadow-xl shadow-purple-900/10"
+                        data-aos="fade-up" data-aos-delay="200">
+                        <div
+                            class="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-purple-500 transition-colors">
+                            <i class="fa-solid fa-boxes-stacked text-purple-400 group-hover:text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-3">الموارد المحدودة</h3>
+                        <p class="text-slate-400 leading-relaxed text-sm">
+                            هو العلم الذي يدرس كيفية استخدام المجتمعات للموارد الاقتصادية المحدودة لإنتاج سلع وخدمات ذات
+                            قيمة عالية لإشباع الاحتياجات الإنسانية.
+                        </p>
+                    </div>
+
+                    <!-- Def 3 -->
+                    <div class="glass-panel p-8 rounded-2xl md:col-span-1 border border-slate-700 hover:border-green-500 transition-colors group"
+                        data-aos="fade-up" data-aos-delay="300">
+                        <div
+                            class="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-green-500 transition-colors">
+                            <i class="fa-solid fa-circle-question text-green-400 group-hover:text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-3">حل المشكلة</h3>
+                        <p class="text-slate-400 leading-relaxed text-sm">
+                            يعرّفه معظم الاقتصاديين بأنه العلم الذي يدرس <span class="text-green-400">المشكلة
+                                الاقتصادية</span> ويحاول إيجاد حلول لها.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Scarcity & The Economic Problem -->
+        <section id="intro" class="py-24 px-6 relative">
+            <div
+                class="absolute inset-0 bg-gradient-to-b from-brand-dark via-slate-900 to-brand-dark opacity-80 pointer-events-none">
+            </div>
+
+            <div class="container mx-auto max-w-6xl relative z-10">
+                <!-- Concept Cards (Nature/Result/Elements) -->
+                <div class="text-center mb-20" data-aos="fade-up">
+                    <h2 class="text-4xl font-bold mb-10">ثانياً: <span class="text-gradient">المشكلة الاقتصادية</span>
+                    </h2>
+
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <!-- Nature -->
+                        <div
+                            class="glass-panel p-6 rounded-2xl border-t-4 border-red-500 hover:-translate-y-2 transition-transform duration-300">
+                            <div
+                                class="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center mx-auto mb-4">
+                                <i class="fa-solid fa-circle-exclamation text-2xl text-red-500"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-2">طبيعة المشكلة</h3>
+                            <p class="text-slate-400 text-sm">ندرة <span class="text-white font-bold">نسبية</span>.
+                                الموارد أقل من الحاجات.</p>
+                        </div>
+
+                        <!-- Result -->
+                        <div
+                            class="glass-panel p-6 rounded-2xl border-t-4 border-amber-500 hover:-translate-y-2 transition-transform duration-300">
+                            <div
+                                class="w-16 h-16 rounded-full bg-amber-500/10 flex items-center justify-center mx-auto mb-4">
+                                <i class="fa-solid fa-scale-unbalanced text-2xl text-amber-500"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-2">النتيجة الحتمية</h3>
+                            <p class="text-slate-400 text-sm">ضرورة <span class="text-white font-bold">الاختيار</span>
+                                والتضحية ببعض الرغبات.</p>
+                        </div>
+
+                        <!-- Elements -->
+                        <div
+                            class="glass-panel p-6 rounded-2xl border-t-4 border-blue-500 hover:-translate-y-2 transition-transform duration-300">
+                            <div
+                                class="w-16 h-16 rounded-full bg-blue-500/10 flex items-center justify-center mx-auto mb-4">
+                                <i class="fa-solid fa-layer-group text-2xl text-blue-500"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-2">عناصر المشكلة</h3>
+                            <p class="text-slate-400 text-sm">1. حاجات متزايدة.<br>2. موارد محدودة.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Scenario: Ahmed's Budget -->
+                <div class="grid lg:grid-cols-2 gap-12 items-start" id="budget-scenario">
+
+                    <!-- Interactive Game Card -->
+                    <div class="glass-panel p-8 rounded-3xl relative overflow-hidden" data-aos="fade-right">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-brand-accent/5 rounded-full blur-3xl"></div>
+
+                        <div class="flex items-center gap-4 mb-6">
+                            <div
+                                class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-600 to-blue-400 flex items-center justify-center shadow-lg shadow-blue-500/20">
+                                <i class="fa-solid fa-wallet text-2xl text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-white">جرب بنفسك: معضلة أحمد</h3>
+                                <p class="text-sm text-slate-400">لديك <strong>1000 جنيه</strong>. ماذا ستختار؟</p>
+                            </div>
+                        </div>
+
+                        <!-- Budget Progress Bar -->
+                        <div class="mb-8 relative">
+                            <div class="flex justify-between text-xs font-bold mb-2">
+                                <span class="text-slate-400">المصروف</span>
+                                <span id="budget-status" class="text-green-400">0 / 1000 ج.م</span>
+                            </div>
+                            <div class="h-4 bg-slate-800 rounded-full overflow-hidden border border-slate-700">
+                                <div id="budget-bar"
+                                    class="h-full bg-gradient-to-r from-green-500 to-emerald-400 w-0 transition-all duration-500 relative">
+                                </div>
+                            </div>
+                            <div id="budget-warning"
+                                class="absolute top-8 left-0 right-0 text-center text-red-400 text-xs font-bold opacity-0 transition-opacity">
+                                <i class="fa-solid fa-circle-exclamation mr-1"></i> تجاوزت الميزانية! عليك التخلي عن شيء
+                                ما.
+                            </div>
+                        </div>
+
+                        <!-- Interactive Items List -->
+                        <div class="space-y-3">
+                            <!-- Item 1 -->
+                            <button onclick="toggleExpense(this, 500)"
+                                class="w-full flex items-center gap-4 bg-slate-800/50 p-4 rounded-xl border border-slate-700 hover:border-brand-accent/50 transition-all text-right group expense-item">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center text-red-500 group-hover:scale-110 transition-transform">
+                                    <i class="fa-solid fa-burger"></i>
+                                </div>
+                                <div class="flex-grow">
+                                    <div class="font-bold text-white group-hover:text-brand-accent transition-colors">
+                                        عزومة أصدقاء</div>
+                                    <div class="text-xs text-slate-500">حاجة اجتماعية</div>
+                                </div>
+                                <div
+                                    class="font-bold text-white bg-slate-900 px-3 py-1 rounded-lg border border-slate-700">
+                                    500 ج.م</div>
+                                <div class="check-icon opacity-0 text-green-500"><i
+                                        class="fa-solid fa-check-circle text-xl"></i></div>
+                            </button>
+
+                            <!-- Item 2 -->
+                            <button onclick="toggleExpense(this, 600)"
+                                class="w-full flex items-center gap-4 bg-slate-800/50 p-4 rounded-xl border border-slate-700 hover:border-brand-accent/50 transition-all text-right group expense-item">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-500 group-hover:scale-110 transition-transform">
+                                    <i class="fa-solid fa-shirt"></i>
+                                </div>
+                                <div class="flex-grow">
+                                    <div class="font-bold text-white group-hover:text-brand-accent transition-colors">
+                                        طقم ملابس جديد</div>
+                                    <div class="text-xs text-slate-500">حاجة مظهرية</div>
+                                </div>
+                                <div
+                                    class="font-bold text-white bg-slate-900 px-3 py-1 rounded-lg border border-slate-700">
+                                    600 ج.م</div>
+                                <div class="check-icon opacity-0 text-green-500"><i
+                                        class="fa-solid fa-check-circle text-xl"></i></div>
+                            </button>
+
+                            <!-- Item 3 -->
+                            <button onclick="toggleExpense(this, 300)"
+                                class="w-full flex items-center gap-4 bg-slate-800/50 p-4 rounded-xl border border-slate-700 hover:border-brand-accent/50 transition-all text-right group expense-item">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center text-green-500 group-hover:scale-110 transition-transform">
+                                    <i class="fa-solid fa-book"></i>
+                                </div>
+                                <div class="flex-grow">
+                                    <div class="font-bold text-white group-hover:text-brand-accent transition-colors">
+                                        كتب ومراجع</div>
+                                    <div class="text-xs text-slate-500">حاجة تعليمية</div>
+                                </div>
+                                <div
+                                    class="font-bold text-white bg-slate-900 px-3 py-1 rounded-lg border border-slate-700">
+                                    300 ج.م</div>
+                                <div class="check-icon opacity-0 text-green-500"><i
+                                        class="fa-solid fa-check-circle text-xl"></i></div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Visual Explanation (Scale) -->
+                    <div class="relative" data-aos="fade-left">
+                        <div class="glass-panel p-8 rounded-3xl relative z-10 text-center">
+                            <h4 class="font-bold text-white mb-8 border-b border-slate-700 pb-4">ميزان الندرة (التوضيح
+                                البياني)</h4>
+
+                            <!-- Scale SVG -->
+                            <svg viewBox="0 0 400 250" class="w-full h-auto mx-auto drop-shadow-2xl">
+                                <!-- Pivot -->
+                                <path d="M180 220 L220 220 L200 150 Z" class="fill-slate-600" />
+
+                                <!-- Beam Group (Animates Rotation) -->
+                                <g class="origin-[200px_150px] animate-[balance_5s_ease-in-out_infinite]">
+                                    <!-- Beam -->
+                                    <rect x="50" y="145" width="300" height="10" rx="4" class="fill-slate-500" />
+
+                                    <!-- Left Pan (Resources) - Light -->
+                                    <g transform="translate(60, 150)">
+                                        <line x1="0" y1="0" x2="0" y2="50" class="stroke-slate-400 stroke-2" />
+                                        <path d="M-20 50 Q0 70 20 50"
+                                            class="fill-slate-800 stroke-slate-400 stroke-2" />
+                                        <!-- Coins -->
+                                        <circle cx="0" cy="45" r="8" class="fill-yellow-500" />
+                                        <text x="0" y="80" text-anchor="middle"
+                                            class="fill-yellow-500 text-[10px] font-bold">1000ج</text>
+                                    </g>
+
+                                    <!-- Right Pan (Needs) - Heavy -->
+                                    <g transform="translate(340, 150)">
+                                        <line x1="0" y1="0" x2="0" y2="50" class="stroke-slate-400 stroke-2" />
+                                        <path d="M-25 50 Q0 80 25 50"
+                                            class="fill-slate-800 stroke-slate-400 stroke-2" />
+                                        <!-- Needs Pile -->
+                                        <rect x="-10" y="30" width="20" height="20" class="fill-red-500" rx="2" />
+                                        <!-- Food -->
+                                        <rect x="-18" y="15" width="15" height="15" class="fill-purple-500" rx="2" />
+                                        <!-- Clothes -->
+                                        <rect x="2" y="15" width="15" height="15" class="fill-green-500" rx="2" />
+                                        <!-- Books -->
+                                        <text x="0" y="80" text-anchor="middle"
+                                            class="fill-red-400 text-[10px] font-bold">1400ج</text>
+                                    </g>
+                                </g>
+                            </svg>
+
+                            <div
+                                class="mt-6 bg-slate-800/50 p-4 rounded-xl border border-slate-700 text-sm leading-relaxed text-slate-300">
+                                <i class="fa-solid fa-lightbulb text-yellow-500 ml-2"></i>
+                                لاحظ كيف تميل الكفة لصالح <strong class="text-white">الحاجات (الأثقل)</strong> بينما
+                                ترتفع كفة <strong class="text-white">الموارد (الأخف/الأندر)</strong>.
+                                هذا الخلل هو "المشكلة الاقتصادية".
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Needs & Characteristics -->
+        <section id="needs" class="py-20 px-6">
+            <div class="container mx-auto max-w-6xl">
+                <div class="flex flex-col items-center mb-12" data-aos="fade-up">
+                    <h2 class="text-3xl font-bold text-white mb-2">1. الحاجات الإنسانية</h2>
+                    <div class="h-1 w-20 bg-brand-accent rounded-full"></div>
+                </div>
+
+                <!-- Definition & Types (New) -->
+                <div class="grid lg:grid-cols-2 gap-8 mb-12" data-aos="fade-up">
+                    <!-- Definition & Types -->
+                    <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-1 h-full bg-blue-500"></div>
+                        <h3 class="text-xl font-bold text-white mb-4">تعريف وأنواع الحاجات</h3>
+                        <p class="text-slate-400 mb-6 leading-relaxed">
+                            <strong class="text-white">الحاجة:</strong> هي شعور بالحرمان يدفع الإنسان للبحث عن وسيلة
+                            لإشباعه (مثل الجوع).
+                        </p>
+                        <div class="flex gap-4">
+                            <div
+                                class="flex-1 bg-slate-800/50 p-4 rounded-xl text-center border border-slate-700 hover:border-blue-500 transition-colors">
+                                <i class="fa-solid fa-person text-blue-400 mb-2 text-2xl"></i>
+                                <div class="font-bold text-white mb-1">حاجات فردية</div>
+                                <div class="text-xs text-slate-500">مأكل، ملبس<br>(إشباع خاص)</div>
+                            </div>
+                            <div
+                                class="flex-1 bg-slate-800/50 p-4 rounded-xl text-center border border-slate-700 hover:border-green-500 transition-colors">
+                                <i class="fa-solid fa-people-group text-green-400 mb-2 text-2xl"></i>
+                                <div class="font-bold text-white mb-1">حاجات جماعية</div>
+                                <div class="text-xs text-slate-500">أمن، عدالة<br>(إشباع عام)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reasons for Increase -->
+                    <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-1 h-full bg-purple-500"></div>
+                        <h3 class="text-xl font-bold text-white mb-4">لماذا تتزايد الحاجات؟</h3>
+                        <ul class="space-y-4 text-slate-300">
+                            <li class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-800 transition-colors">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400">
+                                    <i class="fa-solid fa-robot"></i>
+                                </div>
+                                <span>التقدم التكنولوجي والحضاري.</span>
+                            </li>
+                            <li class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-800 transition-colors">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400">
+                                    <i class="fa-solid fa-bullhorn"></i>
+                                </div>
+                                <span>تطور وسائل الاتصال والدعاية والإعلان.</span>
+                            </li>
+                            <li class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-800 transition-colors">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400">
+                                    <i class="fa-solid fa-users"></i>
+                                </div>
+                                <span>تزايد عدد السكان.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 class="text-2xl font-bold text-white mb-6 text-center" data-aos="fade-up">خصائص الحاجات</h3>
+
+                <!-- Characteristics Grid -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Feature 1 -->
+                    <div class="glass-panel p-6 rounded-2xl hover-card group" data-aos="fade-up" data-aos-delay="100">
+                        <div
+                            class="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-500 group-hover:text-white transition-colors text-blue-400 text-2xl">
+                            <i class="fa-solid fa-arrow-down-9-1"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">قابلة للمقارنة</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            لا تقاس كمياً (لا يوجد كيلوجرام جوع!)، لكن يمكن ترتيبها حسب الأولوية والإلحاح.
+                        </p>
+                    </div>
+
+                    <!-- Feature 2: Renewable (Battery Animation) -->
+                    <div class="glass-panel p-6 rounded-2xl hover-card group relative overflow-hidden"
+                        data-aos="fade-up" data-aos-delay="200">
+                        <!-- Battery Animation Container -->
+                        <div class="absolute top-4 left-4 opacity-50 group-hover:opacity-100 transition-opacity">
+                            <div
+                                class="w-8 h-4 border-2 border-green-500 rounded-sm p-0.5 flex relative before:content-[''] before:w-[2px] before:h-2 before:bg-green-500 before:absolute before:-right-1.5 before:top-1/2 before:-translate-y-1/2 before:rounded-r-sm">
+                                <div
+                                    class="h-full bg-green-500 rounded-[1px] animate-[charge_2s_infinite_steps(5)] w-full origin-left">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-green-500 group-hover:text-white transition-colors text-green-400 text-2xl">
+                            <i class="fa-solid fa-arrows-rotate"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">دورية متجـددة</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed z-10 relative">
+                            مثل بطارية الهاتف: تشحنها (تشبع الحاجة)، ثم تفرغ مع الوقت، فتحتاج لشحنها مجدداً (جوع/عطش).
+                        </p>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div class="glass-panel p-6 rounded-2xl hover-card group" data-aos="fade-up" data-aos-delay="300">
+                        <div
+                            class="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-purple-500 group-hover:text-white transition-colors text-purple-400 text-2xl">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">نسبية متفاوتة</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            تختلف درجتها من شخص لآخر ومن زمان ومكان لآخر (السيارة للغني vs للفقير).
+                        </p>
+                    </div>
+
+                    <!-- Feature 4 -->
+                    <div class="glass-panel p-6 rounded-2xl hover-card group" data-aos="fade-up" data-aos-delay="400">
+                        <div
+                            class="w-12 h-12 bg-amber-500/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-amber-500 group-hover:text-white transition-colors text-amber-400 text-2xl">
+                            <i class="fa-solid fa-infinity"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">متنوعة ومتزايدة</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            لا نهائية. كلما أشبع الانسان حاجة ظهرت حاجات جديدة مع التطور.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Resources (Conditions & Forms) -->
+        <section id="resources" class="py-20 px-6 relative overflow-hidden bg-slate-900/40">
+            <!-- Decorative Elements -->
+            <div class="absolute -left-20 top-40 w-64 h-64 bg-green-500/10 rounded-full blur-3xl pointer-events-none">
+            </div>
+
+            <div class="container mx-auto max-w-6xl relative z-10">
+                <!-- Resources Funnel Visual -->
+                <div class="mb-16" data-aos="fade-up">
+                    <div class="text-center mb-10">
+                        <h2
+                            class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-emerald-400 mb-4">
+                            2. الموارد (وسائل الإشباع)</h2>
+                        <p class="text-slate-300 text-lg">كيف يتحول "الشيء" إلى "مورد اقتصادي"؟</p>
+                        <p class="text-sm text-slate-500 mt-2">يجب أن يمر عبر 3 بوابات (شروط):</p>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-4 relative">
+                        <!-- Step 1 -->
+                        <div
+                            class="w-full md:w-1/3 glass-panel p-6 rounded-2xl relative border-t-4 border-blue-500 hover:-translate-y-2 transition-transform duration-300">
+                            <div
+                                class="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-slate-800 rounded-full border-4 border-blue-500 flex items-center justify-center text-white font-bold text-xl z-20">
+                                1</div>
+                            <div class="mt-4 text-center">
+                                <i class="fa-solid fa-thumbs-up text-4xl text-blue-400 mb-4"></i>
+                                <h3 class="text-xl font-bold text-white mb-2">المنفعـة</h3>
+                                <p class="text-sm text-slate-400">هل يشبع حاجة؟</p>
+                                <p class="text-xs text-slate-500 mt-2">(إذا كان غير مفيد، ليس مورداً)</p>
+                            </div>
+                        </div>
+
+                        <!-- Arrow -->
+                        <div class="hidden md:block text-slate-600 text-2xl"><i class="fa-solid fa-arrow-left"></i>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div
+                            class="w-full md:w-1/3 glass-panel p-6 rounded-2xl relative border-t-4 border-purple-500 hover:-translate-y-2 transition-transform duration-300">
+                            <div
+                                class="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-slate-800 rounded-full border-4 border-purple-500 flex items-center justify-center text-white font-bold text-xl z-20">
+                                2</div>
+                            <div class="mt-4 text-center">
+                                <i class="fa-solid fa-hand-holding-hand text-4xl text-purple-400 mb-4"></i>
+                                <h3 class="text-xl font-bold text-white mb-2">القابلية للاستخدام</h3>
+                                <p class="text-sm text-slate-400">هل يمكن استخراجه؟</p>
+                                <p class="text-xs text-slate-500 mt-2">(معادن كوكب المريخ ليست مورداً حالياً)</p>
+                            </div>
+                        </div>
+
+                        <!-- Arrow -->
+                        <div class="hidden md:block text-slate-600 text-2xl"><i class="fa-solid fa-arrow-left"></i>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div
+                            class="w-full md:w-1/3 glass-panel p-6 rounded-2xl relative border-t-4 border-amber-500 shadow-[0_0_30px_rgba(245,158,11,0.2)] hover:-translate-y-2 transition-transform duration-300">
+                            <div
+                                class="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-slate-800 rounded-full border-4 border-amber-500 flex items-center justify-center text-white font-bold text-xl z-20">
+                                3</div>
+                            <div class="mt-4 text-center">
+                                <i class="fa-solid fa-scale-unbalanced-flip text-4xl text-amber-400 mb-4"></i>
+                                <h3 class="text-xl font-bold text-white mb-2">الندرة النسبية</h3>
+                                <p class="text-sm text-slate-400">هل هو نادر؟</p>
+                                <p class="text-xs text-slate-500 mt-2">(إذا كان متوفراً كالماء والهواء، فهو مورد "حر")
+                                </p>
+                            </div>
+                            <div
+                                class="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-amber-500 text-slate-900 px-4 py-1 rounded-full text-xs font-bold whitespace-nowrap">
+                                الشرط الحاسم
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Forms of Resources -->
+                <div class="mt-16" data-aos="fade-up">
+                    <h3 class="text-2xl font-bold text-white mb-8 text-center">أشكال الموارد الاقتصادية</h3>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <!-- Goods -->
+                        <div
+                            class="glass-panel p-8 rounded-3xl relative overflow-hidden group hover:border-blue-500/50 transition-colors">
+                            <div
+                                class="absolute -right-10 -top-10 w-40 h-40 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition-all">
+                            </div>
+                            <div class="relative z-10 flex items-start gap-4">
+                                <div
+                                    class="w-14 h-14 bg-blue-500/20 rounded-2xl flex items-center justify-center text-blue-400 text-2xl">
+                                    <i class="fa-solid fa-box-open"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-bold text-white mb-2">السلع (Goods)</h4>
+                                    <p class="text-slate-400 leading-relaxed">
+                                        مورد <strong class="text-white">مادي ملموس</strong>.
+                                        <br>
+                                        يمكن تخزينه ونقله. (مثل: الطعام، السيارات، الملابس).
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Services -->
+                        <div
+                            class="glass-panel p-8 rounded-3xl relative overflow-hidden group hover:border-purple-500/50 transition-colors">
+                            <div
+                                class="absolute -right-10 -top-10 w-40 h-40 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-500/20 transition-all">
+                            </div>
+                            <div class="relative z-10 flex items-start gap-4">
+                                <div
+                                    class="w-14 h-14 bg-purple-500/20 rounded-2xl flex items-center justify-center text-purple-400 text-2xl">
+                                    <i class="fa-solid fa-user-doctor"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-bold text-white mb-2">الخدمات (Services)</h4>
+                                    <p class="text-slate-400 leading-relaxed">
+                                        مورد <strong class="text-white">غير مادي</strong>.
+                                        <br>
+                                        لا يمكن تخزينه، يُستهلك لحظة إنتاجه. (مثل: التعليم، الطب، النقل).
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 3: Goods Classification (Full MD Content) -->
+        <section id="goods" class="py-24 px-6 bg-slate-900/40">
+            <div class="container mx-auto max-w-6xl">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+                    <div>
+                        <h2
+                            class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 mb-2">
+                            3. تقسيمات السلع</h2>
+                        <p class="text-slate-400">جولة في "السوبر ماركت الاقتصادي"</p>
+                    </div>
+                </div>
+
+                <!-- Tabs/Filter -->
+                <div class="flex flex-wrap gap-4 mb-8 justify-center lg:justify-start">
+                    <button
+                        class="px-6 py-3 rounded-xl bg-slate-800 border border-slate-700 hover:border-brand-accent focus:bg-brand-accent focus:text-slate-900 transition-all font-bold text-sm tab-btn active"
+                        onclick="filterGoods('all')">
+                        الكل
+                    </button>
+                    <button
+                        class="px-6 py-3 rounded-xl bg-slate-800 border border-slate-700 hover:border-brand-accent focus:bg-brand-accent focus:text-slate-900 transition-all font-bold text-sm tab-btn"
+                        onclick="filterGoods('free-eco')">
+                        حرة vs اقتصادية
+                    </button>
+                    <button
+                        class="px-6 py-3 rounded-xl bg-slate-800 border border-slate-700 hover:border-brand-accent focus:bg-brand-accent focus:text-slate-900 transition-all font-bold text-sm tab-btn"
+                        onclick="filterGoods('consumer-capital')">
+                        استهلاكية vs إنتاجية
+                    </button>
+                    <button
+                        class="px-6 py-3 rounded-xl bg-slate-800 border border-slate-700 hover:border-brand-accent focus:bg-brand-accent focus:text-slate-900 transition-all font-bold text-sm tab-btn"
+                        onclick="filterGoods('sub-comp')">
+                        بديلة vs مكملة
+                    </button>
+                    <button
+                        class="px-6 py-3 rounded-xl bg-slate-800 border border-slate-700 hover:border-brand-accent focus:bg-brand-accent focus:text-slate-900 transition-all font-bold text-sm tab-btn"
+                        onclick="filterGoods('nec-lux')">
+                        ضرورية vs كمالية
+                    </button>
+                </div>
+
+                <!-- Grid of Cards -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6" id="goods-grid">
+
+                    <!-- 1. Free vs Economic -->
+                    <div class="group relative h-80 perspective good-item" data-category="free-eco">
+                        <div
+                            class="w-full h-full preserve-3d group-hover:rotate-y-180 transition-transform duration-700">
+                            <!-- Front -->
+                            <div
+                                class="absolute inset-0 glass-panel rounded-2xl p-6 flex flex-col items-center justify-center backface-hidden border-t-4 border-yellow-400">
+                                <i class="fa-regular fa-sun text-6xl text-yellow-400 mb-4 animate-pulse"></i>
+                                <h3 class="text-xl font-bold text-white">سلع حرة</h3>
+                                <p class="text-xs text-slate-500 mt-2">مثل أشعة الشمس</p>
+                            </div>
+                            <!-- Back -->
+                            <div
+                                class="absolute inset-0 bg-slate-800 rounded-2xl p-6 flex flex-col items-center justify-center rotate-y-180 backface-hidden border border-slate-600 text-center">
+                                <h4 class="font-bold text-yellow-400 text-lg mb-2">لماذا؟</h4>
+                                <p class="text-xs text-slate-300 leading-relaxed">متوفرة بكميات تفوق الحاجة. لا تتطلب
+                                    جهد أو ثمن. (خارج نطاق الاقتصاد).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="group relative h-80 perspective good-item" data-category="free-eco">
+                        <div
+                            class="w-full h-full preserve-3d group-hover:rotate-y-180 transition-transform duration-700">
+                            <!-- Front -->
+                            <div
+                                class="absolute inset-0 glass-panel rounded-2xl p-6 flex flex-col items-center justify-center backface-hidden border-t-4 border-blue-500">
+                                <i class="fa-solid fa-bread-slice text-6xl text-amber-600 mb-4"></i>
+                                <h3 class="text-xl font-bold text-white">سلع اقتصادية</h3>
+                                <p class="text-xs text-slate-500 mt-2">مثل الغذاء والسيارات</p>
+                            </div>
+                            <!-- Back -->
+                            <div
+                                class="absolute inset-0 bg-slate-800 rounded-2xl p-6 flex flex-col items-center justify-center rotate-y-180 backface-hidden border border-slate-600 text-center">
+                                <h4 class="font-bold text-blue-400 text-lg mb-2">لماذا؟</h4>
+                                <p class="text-xs text-slate-300 leading-relaxed">نادرة نسبياً. تتطلب موارد وجهد
+                                    لإنتاجها ولها ثمن. (محور علم الاقتصاد).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Consumer vs Production -->
+                    <div class="group relative h-80 perspective good-item" data-category="consumer-capital">
+                        <div
+                            class="w-full h-full preserve-3d group-hover:rotate-y-180 transition-transform duration-700">
+                            <!-- Front -->
+                            <div
+                                class="absolute inset-0 glass-panel rounded-2xl p-6 flex flex-col items-center justify-center backface-hidden border-t-4 border-purple-500">
+                                <i class="fa-solid fa-basket-shopping text-6xl text-purple-400 mb-4"></i>
+                                <h3 class="text-xl font-bold text-white">سلع استهلاكية</h3>
+                                <span class="bg-purple-500/20 text-purple-300 text-[10px] px-2 py-1 rounded mt-2">إشباع
+                                    مباشر</span>
+                            </div>
+                            <!-- Back -->
+                            <div
+                                class="absolute inset-0 bg-slate-800 rounded-2xl p-6 flex flex-col items-center justify-center rotate-y-180 backface-hidden border border-slate-600 text-center">
+                                <ul class="text-right text-xs text-slate-300 space-y-2 list-disc pr-4">
+                                    <li><strong>غير معمرة:</strong> تفنى بالاستخدام (طعام).</li>
+                                    <li><strong>معمرة:</strong> منفعة ممتدة (ثلاجة).</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="group relative h-80 perspective good-item" data-category="consumer-capital">
+                        <div
+                            class="w-full h-full preserve-3d group-hover:rotate-y-180 transition-transform duration-700">
+                            <!-- Front -->
+                            <div
+                                class="absolute inset-0 glass-panel rounded-2xl p-6 flex flex-col items-center justify-center backface-hidden border-t-4 border-orange-500">
+                                <i class="fa-solid fa-industry text-6xl text-orange-400 mb-4"></i>
+                                <h3 class="text-xl font-bold text-white">سلع إنتاجية</h3>
+                                <span class="bg-orange-500/20 text-orange-300 text-[10px] px-2 py-1 rounded mt-2">إشباع
+                                    غير مباشر</span>
+                            </div>
+                            <!-- Back -->
+                            <div
+                                class="absolute inset-0 bg-slate-800 rounded-2xl p-6 flex flex-col items-center justify-center rotate-y-180 backface-hidden border border-slate-600 text-center">
+                                <ul class="text-right text-xs text-slate-300 space-y-2 list-disc pr-4">
+                                    <li><strong>وسيطة:</strong> تدخل في المنتج (جلود).</li>
+                                    <li><strong>رأسمالية:</strong> آلات تساعد في الإنتاج.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Alternative vs Complementary -->
+                    <div class="group relative h-80 perspective good-item" data-category="sub-comp">
+                        <div
+                            class="w-full h-full preserve-3d group-hover:rotate-y-180 transition-transform duration-700">
+                            <!-- Front -->
+                            <div
+                                class="absolute inset-0 glass-panel rounded-2xl p-6 flex flex-col items-center justify-center backface-hidden border-t-4 border-red-500">
+                                <div class="flex gap-2 mb-4 text-3xl text-red-300">
+                                    <i class="fa-solid fa-mug-hot"></i> / <i class="fa-solid fa-mug-saucer"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-white">سلع متنافسة</h3>
+                                <p class="text-xs text-slate-500 mt-2">(بديلة)</p>
+                            </div>
+                            <!-- Back -->
+                            <div
+                                class="absolute inset-0 bg-slate-800 rounded-2xl p-6 flex flex-col items-center justify-center rotate-y-180 backface-hidden border border-slate-600 text-center">
+                                <p class="text-xs text-slate-300 leading-relaxed">
+                                    يمكن استخدام أي منهما لإشباع <strong>نفس الحاجة</strong>. (شاي وقهوة).
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="group relative h-80 perspective good-item" data-category="sub-comp">
+                        <div
+                            class="w-full h-full preserve-3d group-hover:rotate-y-180 transition-transform duration-700">
+                            <!-- Front -->
+                            <div
+                                class="absolute inset-0 glass-panel rounded-2xl p-6 flex flex-col items-center justify-center backface-hidden border-t-4 border-teal-500">
+                                <div class="flex gap-2 mb-4 text-3xl text-teal-300">
+                                    <i class="fa-solid fa-car"></i> + <i class="fa-solid fa-gas-pump"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-white">سلع متكاملة</h3>
+                                <p class="text-xs text-slate-500 mt-2">(مكملة)</p>
+                            </div>
+                            <!-- Back -->
+                            <div
+                                class="absolute inset-0 bg-slate-800 rounded-2xl p-6 flex flex-col items-center justify-center rotate-y-180 backface-hidden border border-slate-600 text-center">
+                                <p class="text-xs text-slate-300 leading-relaxed">
+                                    لابد من استخدامهما <strong>معاً</strong> لإشباع الحاجة. (سيارة وبنزين).
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Necessary vs Luxury (New) -->
+                    <div class="group relative h-80 perspective good-item" data-category="nec-lux">
+                        <div
+                            class="w-full h-full preserve-3d group-hover:rotate-y-180 transition-transform duration-700">
+                            <!-- Front -->
+                            <div
+                                class="absolute inset-0 glass-panel rounded-2xl p-6 flex flex-col items-center justify-center backface-hidden border-t-4 border-indigo-500">
+                                <i class="fa-solid fa-notes-medical text-6xl text-indigo-400 mb-4"></i>
+                                <h3 class="text-xl font-bold text-white">سلع ضرورية</h3>
+                                <p class="text-xs text-slate-500 mt-2">طعام، دواء</p>
+                            </div>
+                            <!-- Back -->
+                            <div
+                                class="absolute inset-0 bg-slate-800 rounded-2xl p-6 flex flex-col items-center justify-center rotate-y-180 backface-hidden border border-slate-600 text-center">
+                                <p class="text-xs text-slate-300 leading-relaxed">
+                                    تشبع حاجة ملحة، لا يمكن الاستغناء عنها بسهولة. يشتريها الفرد مهما كان دخله.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="group relative h-80 perspective good-item" data-category="nec-lux">
+                        <div
+                            class="w-full h-full preserve-3d group-hover:rotate-y-180 transition-transform duration-700">
+                            <!-- Front -->
+                            <div
+                                class="absolute inset-0 glass-panel rounded-2xl p-6 flex flex-col items-center justify-center backface-hidden border-t-4 border-pink-500">
+                                <i class="fa-solid fa-gem text-6xl text-pink-400 mb-4"></i>
+                                <h3 class="text-xl font-bold text-white">سلع كمالية</h3>
+                                <p class="text-xs text-slate-500 mt-2">مجوهرات، ترفيه</p>
+                            </div>
+                            <!-- Back -->
+                            <div
+                                class="absolute inset-0 bg-slate-800 rounded-2xl p-6 flex flex-col items-center justify-center rotate-y-180 backface-hidden border border-slate-600 text-center">
+                                <p class="text-xs text-slate-300 leading-relaxed">
+                                    تشبع حاجة أقل إلحاحاً. تُرتبط بالدخل المرتفع.
+                                </p>
+                                <div class="mt-2 bg-slate-700/50 p-2 rounded text-[10px] text-slate-400">
+                                    *السيارة قد تكون ضرورية للغني وكمالية للفقير (نسبية).
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- New Exam Section Link -->
+        <section class="py-16 px-6 bg-gradient-to-t from-slate-900 via-slate-900 to-transparent relative z-20">
+            <div class="container mx-auto max-w-4xl text-center" data-aos="fade-up">
+                <div
+                    class="glass-panel p-10 rounded-3xl border border-brand-accent/30 shadow-2xl shadow-brand-accent/20">
+                    <div
+                        class="w-20 h-20 bg-brand-accent/10 rounded-full flex items-center justify-center mx-auto mb-6 animate-[pulse_4s_infinite]">
+                        <i class="fa-solid fa-graduation-cap text-4xl text-brand-accent"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-white mb-4">هل أنت مستعد لاختبار معلوماتك؟</h2>
+                    <p class="text-slate-300 mb-8 max-w-xl mx-auto">
+                        قم بحل مجموعة من الأسئلة التفاعلية لتأكيد فهمك لمفاهيم المحاضرة (الندرة، الموارد، أنواع السلع).
+                    </p>
+                    <a href="QA/index.html"
+                        class="inline-flex items-center gap-3 px-8 py-4 bg-brand-accent text-slate-900 rounded-xl font-bold text-lg hover:bg-white hover:scale-105 transition-all shadow-lg hover:shadow-brand-accent/50 group">
+                        <span>ابدأ الاختبار الآن</span>
+                        <i class="fa-solid fa-arrow-left group-hover:-translate-x-2 transition-transform"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-10 bg-slate-900 border-t border-slate-800 text-center relative z-10">
+        <div class="container mx-auto px-6">
+            <p class="text-slate-500 mb-4">تم تطوير المحتوى التعليمي باستخدام أحدث تقنيات الويب</p>
+            <div class="flex justify-center gap-4 text-2xl text-slate-600">
+                <i class="fa-brands fa-html5 hover:text-orange-500 transition"></i>
+                <i class="fa-brands fa-css3-alt hover:text-blue-500 transition"></i>
+                <i class="fa-brands fa-js hover:text-yellow-400 transition"></i>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        /* 3D Flip Utility */
+        .perspective {
+            perspective: 1000px;
+        }
+
+        .preserve-3d {
+            transform-style: preserve-3d;
+        }
+
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+
+        .backface-hidden {
+            backface-visibility: hidden;
+        }
+    </style>
+
+    <script>
+        // Init AOS
+        AOS.init({
+            once: true,
+            duration: 800,
+            offset: 100
+        });
+
+        // Navbar Blur Effect on Scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-lg', 'bg-slate-900/95');
+                nav.classList.remove('bg-slate-900/80');
+            } else {
+                nav.classList.remove('shadow-lg', 'bg-slate-900/95');
+                nav.classList.add('bg-slate-900/80');
+            }
+        });
+
+        // Goods Filter Logic
+        function filterGoods(category) {
+            const items = document.querySelectorAll('.good-item');
+
+            // Highlight active tab (simple toggle visual)
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('border-brand-accent', 'bg-slate-700'));
+            event.target.classList.add('border-brand-accent', 'bg-slate-700');
+
+            items.forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.style.display = 'block';
+                    // minimal animation
+                    item.classList.add('animate-fade-in');
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // --- Budget Simulator Logic ---
+        let currentTotal = 0;
+        const budgetLimit = 1000;
+
+        function toggleExpense(btn, cost) {
+            // Find UI elements
+            const checkIcon = btn.querySelector('.check-icon');
+            const budgetBar = document.getElementById('budget-bar');
+            const budgetStatus = document.getElementById('budget-status');
+            const budgetWarning = document.getElementById('budget-warning');
+
+            // Toggle state
+            const isSelected = btn.classList.contains('border-brand-accent');
+
+            if (isSelected) {
+                // Deselect
+                btn.classList.remove('border-brand-accent', 'bg-slate-800');
+                btn.classList.add('bg-slate-800/50', 'border-slate-700');
+                checkIcon.classList.add('opacity-0');
+                currentTotal -= cost;
+            } else {
+                // Select
+                btn.classList.remove('bg-slate-800/50', 'border-slate-700');
+                btn.classList.add('border-brand-accent', 'bg-slate-800');
+                checkIcon.classList.remove('opacity-0');
+                currentTotal += cost;
+            }
+
+            // Update UI with Arabic locale
+            budgetStatus.innerText = `${currentTotal} / ${budgetLimit} ج.م`;
+
+            const percentage = Math.min((currentTotal / budgetLimit) * 100, 100);
+            budgetBar.style.width = `${percentage}%`;
+
+            // Logic for limits
+            if (currentTotal > budgetLimit) {
+                budgetBar.classList.remove('from-green-500', 'to-emerald-400');
+                budgetBar.classList.add('from-red-500', 'to-red-400');
+                budgetWarning.classList.remove('opacity-0');
+                budgetStatus.classList.replace('text-green-400', 'text-red-400');
+            } else {
+                budgetBar.classList.add('from-green-500', 'to-emerald-400');
+                budgetBar.classList.remove('from-red-500', 'to-red-400');
+                budgetWarning.classList.add('opacity-0');
+                budgetStatus.classList.replace('text-red-400', 'text-green-400');
+            }
+        }
+
+        // --- Canvas Particle Animation ---
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2 + 1;
+                this.color = Math.random() > 0.5 ? 'rgba(56, 189, 248, ' : 'rgba(129, 140, 248, ';
+                this.alpha = Math.random() * 0.5 + 0.1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color + this.alpha + ')';
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 50; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            // Draw connections
+            particles.forEach((p, index) => {
+                p.update();
+                p.draw();
+
+                // Draw lines between close particles
+                for (let j = index + 1; j < particles.length; j++) {
+                    const p2 = particles[j];
+                    const dx = p.x - p2.x;
+                    const dy = p.y - p2.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 150) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 * (1 - dist / 150)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            resize();
+            initParticles();
+        });
+
+        // Start
+        resize();
+        initParticles();
+        animate();
+
+    </script>
+
+
+</body>
+
+</html>

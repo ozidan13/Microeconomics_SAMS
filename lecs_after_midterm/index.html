@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محاضرات ما بعد الميدتيرم | الاقتصاد الجزئي</title>
+
+    <!-- External Resources -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <!-- MathJax for rendering formulas -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- Custom Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-dark': '#0f172a',
+                        'brand-primary': '#3b82f6',
+                        'brand-accent': '#f43f5e',
+                        'glass-border': 'rgba(255, 255, 255, 0.1)',
+                        'glass-bg': 'rgba(15, 23, 42, 0.7)',
+                    },
+                    fontFamily: {
+                        'arabic': ['Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap');
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #020617;
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(244, 63, 94, 0.15) 0%, transparent 40%);
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        .nav-link.active {
+            background: rgba(59, 130, 246, 0.1);
+            color: #60a5fa;
+            border-right: 3px solid #60a5fa;
+        }
+    </style>
+</head>
+
+<body class="custom-scrollbar relative">
+
+    <!-- Navigation Sidebar -->
+    <nav
+        class="fixed top-0 right-0 h-full w-20 md:w-64 glass-panel z-50 transition-all duration-300 transform translate-x-full md:translate-x-0 group hover:translate-x-0 peer">
+        <div class="p-6 border-b border-white/10 flex items-center gap-3">
+            <a href="../index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity w-full">
+                <div
+                    class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-primary to-brand-accent flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-brand-primary/20 shrink-0">
+                    <i class="fa-solid fa-layer-group"></i>
+                </div>
+                <h1 class="font-bold text-lg hidden md:block text-slate-100">الاقتصاد الجزئي</h1>
+            </a>
+        </div>
+
+        <div class="p-4 space-y-2 relative overflow-y-auto h-[calc(100%-80px)] custom-scrollbar">
+            <a href="../index.html"
+                class="nav-link flex items-center gap-3 p-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all">
+                <i class="fa-solid fa-house w-6 text-center"></i>
+                <span class="hidden md:block text-sm font-bold">الرئيسية</span>
+            </a>
+            <a href="#elasticity"
+                class="nav-link flex items-center gap-3 p-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all">
+                <i class="fa-solid fa-minimize w-6 text-center"></i>
+                <span class="hidden md:block text-sm font-bold">1. المرونة (Elasticity)</span>
+            </a>
+            <a href="#consumer"
+                class="nav-link flex items-center gap-3 p-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all">
+                <i class="fa-solid fa-user-tag w-6 text-center"></i>
+                <span class="hidden md:block text-sm font-bold">2. توازن المستهلك</span>
+            </a>
+            <a href="#production"
+                class="nav-link flex items-center gap-3 p-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all">
+                <i class="fa-solid fa-gears w-6 text-center"></i>
+                <span class="hidden md:block text-sm font-bold">3. نظرية الإنتاج</span>
+            </a>
+            <a href="#costs"
+                class="nav-link flex items-center gap-3 p-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all">
+                <i class="fa-solid fa-coins w-6 text-center"></i>
+                <span class="hidden md:block text-sm font-bold">4. تكاليف الإنتاج</span>
+            </a>
+            <a href="#markets"
+                class="nav-link flex items-center gap-3 p-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all">
+                <i class="fa-solid fa-shop w-6 text-center"></i>
+                <span class="hidden md:block text-sm font-bold">5. هياكل الأسواق</span>
+            </a>
+        </div>
+
+        <button class="md:hidden absolute top-1/2 -left-8 bg-brand-primary text-white p-2 rounded-l-lg shadow-lg">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="md:mr-64 p-6 md:p-12 transition-all duration-300">
+
+        <!-- Hero Header -->
+        <header class="mb-16 relative" data-aos="fade-down">
+            <div class="absolute -top-20 -left-20 w-64 h-64 bg-brand-primary/20 rounded-full blur-3xl"></div>
+            <h1
+                class="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400 mb-4 lh-tight">
+                محاضرات ما بعد الميدتيرم
+            </h1>
+            <p class="text-xl text-slate-400 max-w-2xl leading-relaxed">
+                تغطية شاملة لموضوعات العرض والطلب المتقدمة، سلوك المستهلك والمنتج، ونظريات الإنتاج والتكاليف.
+            </p>
+        </header>
+
+        <!-- WhatsApp Group Hero Button -->
+        <div class="mb-12" data-aos="fade-up" data-aos-delay="100">
+            <a href="https://chat.whatsapp.com/KZVcp5IPWOpFqnOaOJKjy9" target="_blank"
+                class="inline-flex items-center gap-3 px-6 py-3 bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-xl shadow-lg hover:shadow-[#25D366]/40 transition-all hover:-translate-y-1 group">
+                <i class="fa-brands fa-whatsapp text-2xl"></i>
+                <span class="font-bold">الانضمام لجروب الواتساب</span>
+            </a>
+        </div>
+
+        <!-- 1. Elasticity Section (Demand & Supply) -->
+        <section id="elasticity" class="mb-24 scroll-mt-10">
+            <h2 class="text-3xl font-bold text-white mb-8 flex items-center gap-3 border-r-4 border-brand-accent pr-4">
+                <span class="text-brand-accent">01.</span> مرونات الطلب والعرض (Elasticity)
+            </h2>
+
+            <p class="text-slate-300 text-lg mb-8 leading-relaxed max-w-4xl">
+                لا يكفي معرفة أن الكمية المطلوبة تتغير نتيجة للتغير في الثمن، بل يجب معرفة "مقدار" هذا التغير.
+                <br><strong>المرونة:</strong> هي مقياس رياضي يقيس مدى حساسية أو استجابة التغير في متغير تابع نتيجة
+                للتغير في أحد المتغيرات المستقلة بنسبة معينة.
+            </p>
+
+            <!-- 1.1 Price Elasticity of Demand -->
+            <div class="glass-panel p-8 rounded-3xl mb-12" data-aos="fade-up">
+                <h3 class="text-2xl font-bold text-white mb-6 border-b border-brand-accent/30 pb-4">أولاً: مرونة الطلب
+                    السعرية (Price Elasticity of Demand)</h3>
+
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <!-- Definition & Formula -->
+                    <div>
+                        <p class="text-slate-300 leading-relaxed mb-4">
+                            <strong>التعريف:</strong> مقياس يقيس درجة تجاوب أو حساسية التغير في الكمية المطلوبة من سلعة
+                            أو خدمة ما، نتيجة للتغير في ثمنها بنسبة معينة، مع افتراض ثبات العوامل الأخرى.
+                        </p>
+                        <div class="bg-slate-900/50 p-6 rounded-xl border border-brand-accent/20">
+                            <strong class="text-brand-accent block mb-4 text-center">القانون الرياضي (مرونة
+                                النقطة):</strong>
+                            <div class="flex flex-col items-center gap-2 mb-4 font-mono text-xl text-white" dir="rtl">
+                                <div class="text-base md:text-lg mb-2 text-center text-slate-200">
+                                    $$ \text{مرونة الطلب السعرية} = \frac{\text{التغير النسبي في الكمية
+                                    المطلوبة}}{\text{التغير النسبي في الثمن}} $$
+                                </div>
+                                <div dir="ltr">
+                                    $$ م.ط.س = \frac{\Delta ك}{\Delta ث} \times \frac{ث_1}{ك_1} $$
+                                </div>
+                            </div>
+                            <div class="text-sm text-slate-400 text-center">
+                                حيث: (Δك) التغير في الكمية، (Δث) التغير في الثمن.
+                                <br>الاشارة دائماً سالبة (علاقة عكسية)، لكن نأخذ <strong>القيمة المطلقة</strong>.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Revenue Relationship -->
+                    <div class="bg-gradient-to-br from-slate-800 to-slate-900 p-6 rounded-xl border border-white/5">
+                        <h4 class="font-bold text-white mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-coins text-yellow-400"></i> العلاقة مع الإنفاق الكلي (الإيراد الكلي)
+                        </h4>
+                        <p class="text-xs text-slate-400 mb-4">الإنفاق الكلي = السعر × الكمية. العلاقة تعتمد على
+                            المرونة:</p>
+                        <ul class="space-y-3 text-sm">
+                            <li class="flex justify-between items-center border-b border-white/5 pb-2">
+                                <span class="text-red-400 font-bold">غير مرن (م < 1)</span>
+                                        <span class="text-slate-300">الإيراد يتحرك في <strong class="text-white">نفس
+                                                اتجاه</strong> السعر. (رفع السعر يزيد الإيراد).</span>
+                            </li>
+                            <li class="flex justify-between items-center border-b border-white/5 pb-2">
+                                <span class="text-green-400 font-bold">مرن (م > 1)</span>
+                                <span class="text-slate-300">الإيراد يتحرك <strong class="text-white">عكس اتجاه</strong>
+                                    السعر. (خفض السعر يزيد الإيراد).</span>
+                            </li>
+                            <li class="flex justify-between items-center border-b border-white/5 pb-2">
+                                <span class="text-yellow-400 font-bold">متكافئ (م = 1)</span>
+                                <span class="text-slate-300">الإيراد <strong class="text-white">ثابت</strong> لا يتغير
+                                    بتغير السعر.</span>
+                            </li>
+                            <li class="flex justify-between items-center">
+                                <span class="text-slate-400 font-bold">عديم المرونة (م = 0)</span>
+                                <span class="text-slate-300">يزداد الإيراد بنفس نسبة زيادة السعر.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Determinants -->
+                <div class="mt-8 pt-8 border-t border-white/10">
+                    <h4 class="font-bold text-white mb-4">محددات مرونة الطلب السعرية (7 عوامل):</h4>
+                    <div class="grid md:grid-cols-2 gap-4 text-sm text-slate-300">
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-primary"></i>
+                            <span><strong>مدى ضرورة السلعة:</strong> ضرورية (غير مرن) / كمالية (مرن).</span>
+                        </div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-primary"></i>
+                            <span><strong>توافر البدائل:</strong> بدائل كثيرة (مرن - شاي) / قليلة (غير مرن -
+                                سكر).</span>
+                        </div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-primary"></i>
+                            <span><strong>نسبة المنفق من الدخل:</strong> كبيرة (مرن - سيارة) / ضئيلة (غير مرن -
+                                ملح).</span>
+                        </div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-primary"></i>
+                            <span><strong>الفترة الزمنية:</strong> طويلة (مرن) / قصيرة (غير مرن).</span>
+                        </div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-primary"></i>
+                            <span><strong>مستوى الدخل:</strong> مرتفع/أغنياء (غير مرن للأسعار).</span>
+                        </div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-primary"></i>
+                            <span><strong>التكامل:</strong> سلع مكملة لغيرها (غير مرن).</span>
+                        </div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-primary"></i>
+                            <span><strong>ثمن السلعة:</strong> مرتفع جداً (مرن).</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercises: Demand -->
+            <div class="mb-16">
+                <h3 class="text-xl font-bold text-white mb-6">تمارين محلولة (مرونة الطلب)</h3>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <!-- Ex 1 -->
+                    <div class="glass-panel p-5 rounded-2xl border-t-4 border-brand-accent">
+                        <div class="text-xs text-brand-accent font-bold uppercase mb-2">تمرين 1</div>
+                        <p class="text-sm text-slate-300 mb-3">ك1=100 (ث=10) <br> ك2=60 (ث=12)</p>
+                        <div class="bg-black/40 p-3 rounded font-mono text-xs text-white mb-2" dir="ltr">
+                            م.ط.س = (60-100)/(12-10) * (10/100)<br>
+                            = -40/2 * 0.1<br>
+                            = -2
+                        </div>
+                        <div class="text-sm text-green-400 font-bold">طلب مرن (|2| > 1).</div>
+                    </div>
+
+                    <!-- Ex 2 -->
+                    <div class="glass-panel p-5 rounded-2xl border-t-4 border-brand-accent">
+                        <div class="text-xs text-brand-accent font-bold uppercase mb-2">تمرين 2</div>
+                        <p class="text-sm text-slate-300 mb-3">Q زادت من 80 لـ 100.<br>السعر انخفض 30%.</p>
+                        <div class="bg-black/40 p-3 rounded font-mono text-xs text-white mb-2" dir="ltr">
+                            %Δك = (100-80)/80 = 0.25<br>
+                            م.ط.س = 0.25 / -0.3<br>
+                            = -0.83
+                        </div>
+                        <div class="text-sm text-red-400 font-bold">طلب غير مرن (|0.83| < 1).</div>
+                        </div>
+
+                        <!-- Ex 3 -->
+                        <div class="glass-panel p-5 rounded-2xl border-t-4 border-brand-accent">
+                            <div class="text-xs text-brand-accent font-bold uppercase mb-2">تمرين 3</div>
+                            <p class="text-sm text-slate-300 mb-3">المرونة = 1.2. السعر زاد 20%.</p>
+                            <div class="bg-black/40 p-3 rounded font-mono text-xs text-white mb-2" dir="ltr">
+                                1.2 = %Δك / 0.2<br>
+                                %Δك = 1.2 * 0.2 = 0.24
+                            </div>
+                            <div class="text-sm text-white font-bold">تنخفض الكمية بنسبة 24%.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1.2 Price Elasticity of Supply -->
+                <div class="glass-panel p-8 rounded-3xl" data-aos="fade-up">
+                    <h3 class="text-2xl font-bold text-white mb-6 border-b border-blue-500/30 pb-4">ثانياً: مرونة العرض
+                        السعرية (Supply Elasticity)</h3>
+
+                    <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                        <div>
+                            <p class="text-slate-300 mb-4"><strong>التعريف:</strong> مدى تجاوب الكمية المعروضة للتغير في
+                                الثمن (علاقة طردية).</p>
+
+                            <div class="bg-slate-900/50 p-6 rounded-xl border border-blue-500/20 mb-6">
+                                <strong class="text-blue-400 block mb-4 text-center">القانون الرياضي:</strong>
+                                <div class="flex flex-col items-center gap-2 mb-4 font-mono text-xl text-white"
+                                    dir="rtl">
+                                    <div class="text-base md:text-lg mb-2 text-center text-slate-200">
+                                        $$ \text{مرونة العرض السعرية} = \frac{\text{التغير النسبي في الكمية
+                                        المعروضة}}{\text{التغير النسبي في الثمن}} $$
+                                    </div>
+                                    <div dir="ltr">
+                                        $$ م.ع.س = \frac{\Delta ك}{\Delta ث} \times \frac{ث_1}{ك_1} $$
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-y-2 text-sm text-slate-300">
+                                <p><strong class="text-blue-400">1. عرض غير مرن (0 < م < 1):</strong> تغير الكمية < تغير
+                                                السعر. (منحنى شديد الانحدار).</p>
+                                                <p><strong class="text-blue-400">2. عرض متكافئ (م = 1):</strong> يخرج من
+                                                    نقطة الأصل.</p>
+                                                <p><strong class="text-blue-400">3. عرض مرن (م > 1):</strong> تغير
+                                                    الكمية > تغير السعر. (قليل الانحدار).</p>
+                                                <p><strong class="text-blue-400">4. عديم المرونة (م = 0):</strong> رأسي
+                                                    تماماً.</p>
+                                                <p><strong class="text-blue-400">5. لانهائي المرونة (م = ∞):</strong>
+                                                    أفقي تماماً.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-900/50 p-6 rounded-xl">
+                            <h4 class="font-bold text-white mb-3">محددات مرونة العرض:</h4>
+                            <ul class="space-y-2 text-sm text-slate-300 list-disc list-inside">
+                                <li><strong>مرونة عرض عناصر الإنتاج:</strong> (توافرها يجعل العرض مرن).</li>
+                                <li><strong>القابلية للتخزين:</strong> (سهولة التخزين = مرن).</li>
+                                <li><strong>سهولة انتقال العناصر:</strong> (كلما سهُل الانتقال = مرن).</li>
+                                <li><strong>نوع السلعة:</strong> (صناعية = مرن / زراعية = غير مرن لطول فترة الإنتاج).
+                                </li>
+                                <li><strong>طول الفترة الزمنية:</strong> (طويلة = مرن).</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Exercises: Supply -->
+                    <div class="grid md:grid-cols-3 gap-6 pt-6 border-t border-white/10">
+                        <!-- Ex 1 Supply -->
+                        <div class="bg-slate-800/50 p-4 rounded-xl">
+                            <strong class="text-blue-400 block mb-2">تمرين 1 (عرض)</strong>
+                            <p class="text-xs text-slate-400 mb-2">ك: 400 -> 600<br>ث: 20 -> 25</p>
+                            <div class="font-mono text-xs text-white bg-black/30 p-2 rounded" dir="ltr">
+                                $$ م.ع.س = \frac{600-400}{25-20} \times \frac{20}{400} $$
+                                $$ = \frac{200}{5} \times 0.05 = 40 \times 0.05 = 2 $$
+                            </div>
+                            <div class="text-xs text-blue-300 mt-1">عرض مرن (2 > 1).</div>
+                        </div>
+
+                        <!-- Ex 2 Supply -->
+                        <div class="bg-slate-800/50 p-4 rounded-xl">
+                            <strong class="text-blue-400 block mb-2">تمرين 2 (عرض)</strong>
+                            <p class="text-xs text-slate-400 mb-2">ك: 120 -> 100<br>السعر انخفض 40%.</p>
+                            <div class="font-mono text-xs text-white bg-black/30 p-2 rounded" dir="ltr">
+                                %Δك = -20/120 = -0.166<br>
+                                م.ع.س = -0.166 / -0.4 = 0.42
+                            </div>
+                            <div class="text-xs text-red-300 mt-1">عرض غير مرن (0.42 < 1).</div>
+                            </div>
+
+                            <!-- Ex 3 Supply -->
+                            <div class="bg-slate-800/50 p-4 rounded-xl">
+                                <strong class="text-blue-400 block mb-2">تمرين 3 (عرض)</strong>
+                                <p class="text-xs text-slate-400 mb-2">المرونة = 0.5. السعر ارتفع 28%.</p>
+                                <div class="font-mono text-xs text-white bg-black/30 p-2 rounded" dir="ltr">
+                                    0.5 = %Δك / 0.28<br>
+                                    %Δك = 0.14
+                                </div>
+                                <div class="text-xs text-white mt-1">ترتفع الكمية 14%.</div>
+                            </div>
+                        </div>
+                    </div>
+        </section>
+        </section>
+
+        <!-- 2. Consumer Equilibrium (Utility) -->
+        <section id="consumer" class="mb-24 scroll-mt-10">
+            <h2 class="text-3xl font-bold text-white mb-8 flex items-center gap-3 border-r-4 border-emerald-500 pr-4">
+                <span class="text-emerald-500">02.</span> توازن المستهلك (نظرية المنفعة)
+            </h2>
+
+            <div class="grid lg:grid-cols-2 gap-8 mb-12">
+                <!-- Theory & Conditions -->
+                <div class="space-y-6" data-aos="fade-left">
+                    <div class="glass-panel p-6 rounded-2xl">
+                        <h3 class="font-bold text-white mb-4">المفاهيم والشروط</h3>
+                        <ul class="text-slate-400 text-sm space-y-3 mb-6">
+                            <li><strong class="text-emerald-400">المنفعة الكلية (TU):</strong> مجموع المنافع من استهلاك
+                                وحدات متتالية. تتزايد حتى التشبع.</li>
+                            <li><strong class="text-emerald-400">المنفعة الحدية (MU):</strong> مقدار التغير في المنفعة
+                                الكلية من الوحدة الأخيرة. تخضع لقانون التناقص.</li>
+                        </ul>
+                        <div class="bg-slate-900/50 p-4 rounded-xl border border-emerald-500/20">
+                            <strong class="text-white block mb-2">شرطا التوازن:</strong>
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-slate-300">
+                                <li>
+                                    تساوي المنافع الحدية للريال (الجنيه):
+                                    <span class="block font-mono text-center text-emerald-400 my-1" dir="ltr">MUx / Px =
+                                        MUy / Py</span>
+                                </li>
+                                <li>
+                                    معادلة الميزانية:
+                                    <span class="block font-mono text-center text-emerald-400 my-1" dir="ltr">I = Qx.Px
+                                        + Qy.Py</span>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Example: Orange & Banana -->
+                    <div class="glass-panel p-6 rounded-2xl">
+                        <h3 class="font-bold text-white mb-3">مثال تطبيقي (البرتقال والموز)</h3>
+                        <div class="flex gap-4 text-xs text-slate-400 mb-3 bg-black/20 p-2 rounded">
+                            <span>الدخل I = 15</span>
+                            <span>P(برتقال) = 1</span>
+                            <span>P(موز) = 2</span>
+                        </div>
+                        <p class="text-sm text-slate-300 mb-3">
+                            نبحث في جدول المنافع (معطى) عن الكميات التي تحقق تساوي النسبة (MU/P).
+                            <br>وجدنا أن النسبة تتساوي عند القيمة (4) لكل منهما.
+                        </p>
+                        <ul class="space-y-2 text-xs font-mono text-emerald-300 bg-slate-800 p-3 rounded">
+                            <li>MUx/Px = 4/1 = 4 (عند 4 وحدات برتقال)</li>
+                            <li>MUy/Py = 8/2 = 4 (عند 7 وحدات موز)</li>
+                            <li class="border-t border-white/10 pt-1 mt-1 text-white">التحقق من الدخل: (4×1) + (7×2) = 4
+                                + 14 = 18 (أكبر من 15؟)</li>
+                            <li class="text-red-400 italic">ملاحظة: حسب نص المحاضرة الحل هو 4 برتقال و 7 موز، ولكن
+                                رقمياً الميزانية 15 لا تكفي لـ 18. (نلتزم بنص المحاضرة أن التوازن عند هذه النقطة).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Math Problem: Utility Function -->
+                <div class="glass-panel p-8 rounded-2xl bg-gradient-to-br from-slate-900 to-indigo-900/40 border border-indigo-500/30"
+                    data-aos="fade-right">
+                    <h3 class="font-bold text-white mb-6 border-b border-indigo-500/30 pb-3">مسألة رياضية (دالة المنفعة)
+                    </h3>
+
+                    <div class="grid grid-cols-2 gap-4 text-xs font-mono text-indigo-200 mb-6">
+                        <div class="bg-indigo-900/40 p-2 rounded">U = y² . x</div>
+                        <div class="bg-indigo-900/40 p-2 rounded">I = 60,000</div>
+                        <div class="bg-indigo-900/40 p-2 rounded">Px = 200</div>
+                        <div class="bg-indigo-900/40 p-2 rounded">Py = 100</div>
+                    </div>
+
+                    <div class="space-y-4 text-sm text-slate-300">
+                        <div>
+                            <strong class="text-white block mb-1">1. الشرط الأول (MUx/Px = MUy/Py):</strong>
+                            <div class="pl-4 border-l-2 border-indigo-500/50">
+                                MUx = y² , MUy = 2yx<br>
+                                y²/200 = 2yx/100<br>
+                                y²/2 = 2xy → <span class="text-yellow-400 font-bold">y = 4x</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <strong class="text-white block mb-1">2. معادلة الدخل (I = Px.x + Py.y):</strong>
+                            <div class="pl-4 border-l-2 border-indigo-500/50">
+                                60000 = 200x + 100(4x)<br>
+                                60000 = 200x + 400x = 600x<br>
+                                x = 60000/600<br>
+                                <span class="text-emerald-400 font-bold block mt-1 text-lg">x = 100 وحدة</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <strong class="text-white block mb-1">3. إيجاد y:</strong>
+                            <div class="pl-4 border-l-2 border-indigo-500/50">
+                                y = 4(100)<br>
+                                <span class="text-emerald-400 font-bold block mt-1 text-lg">y = 400 وحدة</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Extra Exercise (A & B) -->
+            <div class="glass-panel p-6 rounded-2xl border-t-4 border-emerald-500 max-w-2xl mx-auto" data-aos="fade-up">
+                <h4 class="font-bold text-white mb-2">تمرين إضافي (السلعة أ و ب)</h4>
+                <p class="text-xs text-slate-400 mb-2">الدخل=12، سعر أ=2، سعر ب=1.</p>
+                <p class="text-sm text-slate-300">
+                    الحل: التوازن عند <strong>3 وحدات من (أ)</strong> و <strong>6 وحدات من (ب)</strong>.<br>
+                    التحقق: (3×2) + (6×1) = 6 + 6 = 12. (الدخل استنفد بالكامل).
+                </p>
+            </div>
+        </section>
+
+        <!-- 3. Theory of Production -->
+        <section id="production" class="mb-24 scroll-mt-10">
+            <h2 class="text-3xl font-bold text-white mb-8 flex items-center gap-3 border-r-4 border-blue-500 pr-4">
+                <span class="text-blue-500">03.</span> نظرية الإنتاج (Theory of Production)
+            </h2>
+
+            <div class="mb-12">
+                <div class="glass-panel p-6 rounded-2xl mb-8">
+                    <h3 class="font-bold text-white mb-4">المفاهيم الأساسية</h3>
+                    <div class="grid md:grid-cols-2 gap-6 text-sm text-slate-300">
+                        <div>
+                            <strong class="text-blue-400 block mb-1">المدى القصير (Short Run):</strong>
+                            فترة لا يمكن فيها تغيير كل العناصر (يوجد عنصر ثابت كرأس المال وعمل متغير).
+                        </div>
+                        <div>
+                            <strong class="text-blue-400 block mb-1">المدى الطويل (Long Run):</strong>
+                            فترة يمكن فيها تغيير جميع العناصر (توسع الطاقة الإنتاجية).
+                        </div>
+                        <div>
+                            <strong class="text-blue-400 block mb-1">الناتج المتوسط (AP):</strong>
+                            TP / L (إنتاجية العامل الواحد).
+                        </div>
+                        <div>
+                            <strong class="text-blue-400 block mb-1">الناتج الحدي (MP):</strong>
+                            ΔTP / ΔL (مقدار التغير في الناتج الكلي بوحدة عمل إضافية).
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3 Stages of Production -->
+                <div class="relative pl-8 border-r-2 border-slate-700 space-y-8" dir="rtl">
+                    <!-- Stage 1 -->
+                    <div class="relative pr-8">
+                        <span
+                            class="absolute -right-[9px] top-0 w-4 h-4 rounded-full bg-green-500 ring-4 ring-slate-900"></span>
+                        <h4 class="font-bold text-green-400 text-lg mb-2">المرحلة الأولى: تزايد الغلة</h4>
+                        <p class="text-slate-300 text-sm">
+                            الناتج الحدي (MP) يتزايد ثم يبدأ بالتناقص لكنه يظل <strong class="text-white">أعلى</strong>
+                            من الناتج المتوسط (AP).<br>
+                            تنتهي عندما يتساوى الناتج الحدي مع المتوسط (MP = AP) عند أقصى قيمة للمتوسط.
+                        </p>
+                    </div>
+
+                    <!-- Stage 2 -->
+                    <div class="relative pr-8">
+                        <span
+                            class="absolute -right-[9px] top-0 w-4 h-4 rounded-full bg-yellow-500 ring-4 ring-slate-900"></span>
+                        <h4 class="font-bold text-yellow-400 text-lg mb-2">المرحلة الثانية: تناقص الغلة</h4>
+                        <p class="text-slate-300 text-sm">
+                            الناتج الحدي (MP) يتناقص ويكون <strong class="text-white">أقل</strong> من الناتج
+                            المتوسط.<br>
+                            الناتج الكلي (TP) يتزايد بمعدل متناقص.<br>
+                            تنتهي عندما يصل الناتج الحدي للصفر (MP = 0) والناتج الكلي عند أقصاه.
+                        </p>
+                    </div>
+
+                    <!-- Stage 3 -->
+                    <div class="relative pr-8">
+                        <span
+                            class="absolute -right-[9px] top-0 w-4 h-4 rounded-full bg-red-500 ring-4 ring-slate-900"></span>
+                        <h4 class="font-bold text-red-400 text-lg mb-2">المرحلة الثالثة: الغلة السالبة</h4>
+                        <p class="text-slate-300 text-sm">
+                            الناتج الحدي (MP) يصبح <strong class="text-red-400">سالباً</strong>.<br>
+                            الناتج الكلي (TP) يبدأ بالتناقص.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 6: Production Table -->
+            <div class="glass-panel p-6 rounded-2xl border-t-4 border-blue-500" data-aos="fade-up">
+                <h3 class="font-bold text-white mb-4">تمرين (6): جدول الإنتاج</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-center text-sm text-slate-300">
+                        <thead class="bg-blue-900/30 text-white font-bold">
+                            <tr>
+                                <th class="p-2">العمل (L)</th>
+                                <th class="p-2">رأس المال (K)</th>
+                                <th class="p-2">الناتج الكلي (TP)</th>
+                                <th class="p-2 text-green-400">الناتج المتوسط (AP)</th>
+                                <th class="p-2 text-yellow-400">الناتج الحدي (MP)</th>
+                                <th class="p-2">المرحلة</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-700">
+                            <tr>
+                                <td>0</td>
+                                <td>5</td>
+                                <td>0</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>5</td>
+                                <td>20</td>
+                                <td>20</td>
+                                <td>20</td>
+                                <td rowspan="3" class="bg-green-900/20">الأولى</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>5</td>
+                                <td>50</td>
+                                <td>25</td>
+                                <td>30</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>5</td>
+                                <td>90</td>
+                                <td>30</td>
+                                <td>40</td>
+                            </tr>
+                            <!-- Continue logic based on stages -->
+                            <tr>
+                                <td>..</td>
+                                <td>5</td>
+                                <td>..</td>
+                                <td>..</td>
+                                <td>..</td>
+                                <td class="bg-yellow-900/20">الثانية</td>
+                            </tr>
+                            <tr>
+                                <td>..</td>
+                                <td>5</td>
+                                <td>Max</td>
+                                <td>..</td>
+                                <td>0</td>
+                                <td>نهاية الثانية</td>
+                            </tr>
+                            <tr>
+                                <td>..</td>
+                                <td>5</td>
+                                <td>Less</td>
+                                <td>..</td>
+                                <td>Negative</td>
+                                <td class="bg-red-900/20">الثالثة</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-xs text-slate-500 mt-2 text-left" dir="ltr">* Table represents data structure from
+                    exercise 6.</p>
+            </div>
+        </section>
+
+        <!-- 4. Costs Theory -->
+        <section id="costs" class="mb-24 scroll-mt-10">
+            <h2 class="text-3xl font-bold text-white mb-8 flex items-center gap-3 border-r-4 border-yellow-500 pr-4">
+                <span class="text-yellow-500">04.</span> تكاليف الإنتاج
+            </h2>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Formulas -->
+                <div class="glass-panel p-6 rounded-3xl" data-aos="fade-right">
+                    <span class="text-yellow-500">04.</span> نظرية التكاليف (Theory of Costs)
+                    </h2>
+
+                    <div class="glass-panel p-8 rounded-3xl mb-12" data-aos="fade-up">
+                        <h3 class="font-bold text-white mb-6">أنواع التكاليف في المدى القصير</h3>
+                        <div class="grid md:grid-cols-2 gap-6 text-sm text-slate-300">
+                            <div class="bg-slate-800/50 p-4 rounded-xl">
+                                <strong class="text-yellow-400 block mb-2">التكاليف الثابتة (FC):</strong>
+                                لا تتغير بتغير الإنتاج (إيجار). خط أفقي.
+                            </div>
+                            <div class="bg-slate-800/50 p-4 rounded-xl">
+                                <strong class="text-yellow-400 block mb-2">التكاليف المتغيرة (VC):</strong>
+                                تتغير مع الإنتاج (أجور، مواد). تبدأ من الصفر.
+                            </div>
+                            <div class="bg-slate-800/50 p-4 rounded-xl">
+                                <strong class="text-yellow-400 block mb-2">التكاليف الكلية (TC):</strong>
+                                FC + VC. تأخذ شكل VC لكن مرتفعة بمقدار FC.
+                            </div>
+                            <div class="bg-slate-800/50 p-4 rounded-xl">
+                                <strong class="text-yellow-400 block mb-2">التكلفة الحدية (MC):</strong>
+                                ΔTC / ΔQ. (شكل علامة "صح"). تقطع المتوسطات عند أدنى نقطة.
+                            </div>
+                        </div>
+
+                        <div class="mt-6 pt-6 border-t border-white/10 grid md:grid-cols-3 gap-4 text-center">
+                            <div class="p-2 border border-white/10 rounded">AFC = FC / Q <br><span
+                                    class="text-xs text-slate-500">(تتناقص باستمرار)</span></div>
+                            <div class="p-2 border border-white/10 rounded">AVC = VC / Q <br><span
+                                    class="text-xs text-slate-500">(شكل U)</span></div>
+                            <div class="p-2 border border-white/10 rounded">ATC = TC / Q <br><span
+                                    class="text-xs text-slate-500">(شكل U)</span></div>
+                        </div>
+                    </div>
+
+                    <!-- SVG Cost Curves -->
+                    <div
+                        class="glass-panel p-6 rounded-2xl h-80 mb-12 flex justify-center items-center bg-white/5 relative">
+                        <p class="absolute top-4 right-4 text-xs text-slate-400">سلوك منحنيات التكلفة</p>
+                        <svg viewBox="0 0 400 300" class="w-full h-full max-w-lg">
+                            <!-- Axes -->
+                            <line x1="40" y1="260" x2="380" y2="260" stroke="#94a3b8" stroke-width="2" />
+                            <line x1="40" y1="260" x2="40" y2="20" stroke="#94a3b8" stroke-width="2" />
+                            <text x="360" y="280" fill="#64748b" font-size="10">Q</text>
+                            <text x="10" y="20" fill="#64748b" font-size="10">Cost</text>
+
+                            <!-- Curves -->
+                            <path d="M 45 200 Q 100 60 350 30" fill="none" stroke="#3b82f6" stroke-width="2"
+                                stroke-dasharray="4,4" /> <!-- AFC -->
+                            <text x="355" y="30" fill="#3b82f6" font-size="10">AFC</text>
+
+                            <path d="M 45 250 Q 180 80 350 180" fill="none" stroke="#eab308" stroke-width="3" />
+                            <!-- ATC -->
+                            <text x="355" y="180" fill="#eab308" font-size="10">ATC</text>
+
+                            <path d="M 45 220 Q 160 100 350 160" fill="none" stroke="#22c55e" stroke-width="3" />
+                            <!-- AVC -->
+                            <text x="355" y="160" fill="#22c55e" font-size="10">AVC</text>
+
+                            <path d="M 45 180 Q 90 140 130 140 C 200 140 250 250 280 20" fill="none" stroke="#ef4444"
+                                stroke-width="3" /> <!-- MC -->
+                            <text x="280" y="15" fill="#ef4444" font-size="10">MC</text>
+
+                            <!-- Intersections -->
+                            <circle cx="210" cy="132" r="3" fill="white" /> <!-- MC cuts AVC min -->
+                            <circle cx="230" cy="125" r="3" fill="white" /> <!-- MC cuts ATC min -->
+                        </svg>
+                    </div>
+        </section>
+
+        <!-- 5. Market Structures & Equilibrium -->
+        <section id="markets" class="mb-24 scroll-mt-10">
+            <h2 class="text-3xl font-bold text-white mb-8 flex items-center gap-3 border-r-4 border-purple-500 pr-4">
+                <span class="text-purple-500">05.</span> هياكل الأسواق وتوازن المنتج
+            </h2>
+
+            <!-- Market Structures Comparison Table -->
+            <div class="glass-panel p-6 rounded-3xl mb-12" data-aos="fade-up">
+                <h3 class="font-bold text-white mb-6">مقارنة بين هياكل الأسواق</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right border-collapse">
+                        <thead>
+                            <tr class="bg-purple-900/40 text-purple-200">
+                                <th class="p-3 border-b border-purple-500/30">وجه المقارنة</th>
+                                <th class="p-3 border-b border-purple-500/30">المنافسة الكاملة</th>
+                                <th class="p-3 border-b border-purple-500/30">الاحتكار التام</th>
+                                <th class="p-3 border-b border-purple-500/30">المنافسة الاحتكارية</th>
+                                <th class="p-3 border-b border-purple-500/30">احتكار القلة</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-slate-300 text-sm">
+                            <tr class="border-b border-slate-700/50 hover:bg-white/5">
+                                <td class="p-3 font-bold text-slate-200">عدد المنشآت</td>
+                                <td class="p-3">كبير جداً</td>
+                                <td class="p-3">واحدة فقط</td>
+                                <td class="p-3">كبير</td>
+                                <td class="p-3">قليل</td>
+                            </tr>
+                            <tr class="border-b border-slate-700/50 hover:bg-white/5">
+                                <td class="p-3 font-bold text-slate-200">نوع المنتج</td>
+                                <td class="p-3">متجانس تماماً</td>
+                                <td class="p-3">وحيد (لا بديل)</td>
+                                <td class="p-3">متميز (متشابه لكن غير متطابق)</td>
+                                <td class="p-3">متجانس أو متميز</td>
+                            </tr>
+                            <tr class="border-b border-slate-700/50 hover:bg-white/5">
+                                <td class="p-3 font-bold text-slate-200">التحكم في السعر</td>
+                                <td class="p-3">معدوم (مُتلقي للسعر)</td>
+                                <td class="p-3">كبير جداً (صانع للسعر)</td>
+                                <td class="p-3">محدود</td>
+                                <td class="p-3">كبير (مع التواطؤ)</td>
+                            </tr>
+                            <tr class="border-b border-slate-700/50 hover:bg-white/5">
+                                <td class="p-3 font-bold text-slate-200">حرية الدخول/الخروج</td>
+                                <td class="p-3">حرية تامة</td>
+                                <td class="p-3">قيود شديدة (مغلق)</td>
+                                <td class="p-3">حرية نسبية</td>
+                                <td class="p-3">قيود</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-slate-200">أمثلة</td>
+                                <td class="p-3">الخضار، العملات</td>
+                                <td class="p-3">الكهرباء، المياه</td>
+                                <td class="p-3">المطاعم، الملابس</td>
+                                <td class="p-3">السيارات، الاتصالات</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Producer Equilibrium in Perfect Competition -->
+            <div class="glass-panel p-8 rounded-3xl" data-aos="fade-up">
+                <div class="flex items-center gap-4 mb-6">
+                    <div
+                        class="w-12 h-12 rounded-full bg-purple-600 flex items-center justify-center text-white text-xl">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-white">توازن المنتج في المنافسة الكاملة</h3>
+                        <p class="text-sm text-purple-300">الهدف: تعظيم الربح (أو تقليل الخسارة).</p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div class="p-4 bg-slate-900/50 border border-purple-500/20 rounded-xl">
+                        <h4 class="font-bold text-purple-400 mb-2">شرط التوازن (تعظيم الربح)</h4>
+                        <div
+                            class="text-2xl font-mono text-white text-center py-4 bg-black/20 rounded-lg border border-purple-500/30">
+                            الإيراد الحدي (MR) = التكلفة الحدية (MC) = السعر (P)
+                        </div>
+                        <p class="text-xs text-slate-400 mt-2 text-center">الإيراد الحدي = التكلفة الحدية = السعر</p>
+                    </div>
+
+                    <div class="p-4 bg-slate-900/50 border border-purple-500/20 rounded-xl">
+                        <h4 class="font-bold text-red-400 mb-2">نقطة الإغلاق (Shutdown Point)</h4>
+                        <div
+                            class="text-2xl font-mono text-white text-center py-4 bg-black/20 rounded-lg border border-red-500/30">
+                            السعر (P) < متوسط التكلفة المتغيرة (AVC) </div>
+                                <p class="text-xs text-slate-400 mt-2 text-center">إذا السعر أقل من متوسط التكلفة
+                                    المتغيرة -> توقف!</p>
+                        </div>
+                    </div>
+
+                    <!-- Comprehensive Exercise -->
+                    <div class="bg-slate-800/60 p-6 rounded-2xl border border-white/5">
+                        <h4 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-pen-to-square text-purple-400"></i>
+                            تمرين شامل (توازن المنتج)
+                        </h4>
+                        <p class="text-slate-300 mb-4">
+                            في سوق المنافسة الكاملة، إذا كان السعر السائد في السوق هو <span
+                                class="bg-purple-900 text-white px-2 rounded">50 ريال</span>.
+                            أكمل الجدول وحدد كمية التوازن والربح/الخسارة.
+                        </p>
+
+                        <div class="overflow-x-auto mb-6">
+                            <table class="w-full text-center text-sm border-separate border-spacing-1">
+                                <thead>
+                                    <tr class="text-purple-300">
+                                        <th class="bg-slate-900 p-2 rounded">Q</th>
+                                        <th class="bg-slate-900 p-2 rounded">TC</th>
+                                        <th class="bg-slate-900 p-2 rounded">TR (P×Q)</th>
+                                        <th class="bg-slate-900 p-2 rounded">Profit (TR-TC)</th>
+                                        <th class="bg-slate-900 p-2 rounded">MR (ΔTR)</th>
+                                        <th class="bg-slate-900 p-2 rounded">MC (ΔTC)</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-slate-300">
+                                    <tr>
+                                        <td>0</td>
+                                        <td>100</td>
+                                        <td>0</td>
+                                        <td class="text-red-400">-100</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>150</td>
+                                        <td>50</td>
+                                        <td class="text-red-400">-100</td>
+                                        <td>50</td>
+                                        <td>50</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>190</td>
+                                        <td>100</td>
+                                        <td class="text-red-400">-90</td>
+                                        <td>50</td>
+                                        <td>40</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>220</td>
+                                        <td>150</td>
+                                        <td class="text-red-400">-70</td>
+                                        <td>50</td>
+                                        <td>30</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>260</td>
+                                        <td>200</td>
+                                        <td class="text-red-400">-60</td>
+                                        <td>50</td>
+                                        <td>40</td>
+                                    </tr>
+                                    <tr class="bg-purple-500/20 border border-purple-500">
+                                        <td class="font-bold text-white">5</td>
+                                        <td>310</td>
+                                        <td>250</td>
+                                        <td class="text-red-400 font-bold">-60</td>
+                                        <td class="font-bold text-yellow-400">50</td>
+                                        <td class="font-bold text-yellow-400">50</td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>370</td>
+                                        <td>300</td>
+                                        <td class="text-red-400">-70</td>
+                                        <td>50</td>
+                                        <td>60</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <button onclick="toggleExercise(this)"
+                            class="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white rounded-xl font-bold transition-all flex items-center justify-center gap-2 mb-4">
+                            <span>عرض التحليل والحل</span>
+                            <i class="fa-solid fa-chevron-down transition-transform duration-300"></i>
+                        </button>
+
+                        <div class="hidden space-y-4 bg-black/20 p-4 rounded-xl text-slate-300 text-sm">
+                            <div>
+                                <strong class="text-purple-400 block border-b border-purple-500/20 pb-1 mb-1">1. كمية
+                                    التوازن:</strong>
+                                الكمية التي تحقق شرط <span class="font-mono text-yellow-500">MR = MC = P</span>.<br>
+                                من الجدول: عند الكمية <strong class="text-white">5 وحدات</strong>، السعر (50) = التكلفة
+                                الحدية (50).
+                            </div>
+                            <div>
+                                <strong class="text-purple-400 block border-b border-purple-500/20 pb-1 mb-1">2. حساب
+                                    الربح/الخسارة:</strong>
+                                عند التوازن (Q=5):<br>
+                                TR = 250, TC = 310<br>
+                                Profit = 250 - 310 = <span class="text-red-400 font-bold">-60 (خسارة)</span>.
+                            </div>
+                            <div>
+                                <strong class="text-purple-400 block border-b border-purple-500/20 pb-1 mb-1">3. قرار
+                                    الإغلاق:</strong>
+                                هل نغلق؟ نقارن السعر بمتوسط التكلفة المتغيرة (AVC).<br>
+                                AVC = VC / Q = (310 - 100) / 5 = 210 / 5 = <span class="text-blue-400">42
+                                    ريال</span>.<br>
+                                بما أن السعر (50) <strong class="text-green-400">أكبر</strong> من AVC (42)،
+                                القرار هو: <strong class="text-green-400">الاستمرار في الإنتاج</strong> لأن الخسارة
+                                (-60) أقل من الخسارة في حال التوقف (وهي التكلفة الثابتة -100).
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+        </section>
+
+        <!-- QA Link Section -->
+        <section class="py-12 border-t border-purple-500/20">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl font-bold text-white mb-6 font-arabic">هل أنت مستعد للاختبار؟</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto mb-8 font-arabic">
+                    قم بحل مجموعة من الأسئلة الشاملة التي تغطي جميع موضوعات ما بعد المنتصف: المرونة، توازن المستهلك،
+                    الإنتاج، التكاليف، وهياكل الأسواق.
+                </p>
+                <a href="QA/index.html"
+                    class="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg shadow-purple-900/20 group">
+                    <span>انتقل إلى بنك الأسئلة</span>
+                    <i class="fa-solid fa-clipboard-question text-xl group-hover:rotate-12 transition-transform"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center text-slate-600 py-12 border-t border-slate-800">
+            <p>© 2025 أكاديمية السادات للعلوم الإدارية - محاضرات الاقتصاد الجزئي</p>
+        </footer>
+
+    </main>
+
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 50
+        });
+
+        // Toggle Exercise Details
+        function toggleExercise(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.fa-chevron-down');
+
+            content.classList.toggle('hidden');
+            if (content.classList.contains('hidden')) {
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+    </script>
+
+
+</body>
+
+</html>

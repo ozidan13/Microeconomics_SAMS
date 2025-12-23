@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="ar" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مبادئ الاقتصاد الجزئي - المحاضرة الثانية | عناصر الإنتاج والمشكلة الاقتصادية</title>
+    <meta name="description" content="شرح تفاعلي لعناصر الإنتاج، منحنى إمكانيات الإنتاج، والنظم الاقتصادية.">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <!-- Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0f172a',
+                            light: '#1e293b',
+                            accent: '#38bdf8',
+                            glow: '#0ea5e9',
+                            success: '#10b981',
+                            warning: '#f59e0b',
+                            danger: '#ef4444'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                        arabic: ['Cairo', 'sans-serif']
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #020617;
+            color: #f1f5f9;
+            overflow-x: hidden;
+            font-family: 'Cairo', sans-serif;
+            direction: rtl;
+        }
+
+        /* Dark Glass Effect */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glass-header {
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(56, 189, 248, 0.1);
+        }
+
+        /* Typography & Gradients */
+        .text-gradient {
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #020617;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #38bdf8;
+        }
+
+        /* Canvas Styles */
+        #particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Table Styling */
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .custom-table th,
+        .custom-table td {
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .custom-table th {
+            background: rgba(56, 189, 248, 0.1);
+            color: #38bdf8;
+            font-weight: 700;
+        }
+
+        .custom-table tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+    </style>
+</head>
+
+<body class="antialiased flex flex-col min-h-screen relative selection:bg-brand-accent selection:text-brand-dark">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 glass-header transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                <div
+                    class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-accent to-blue-600 flex items-center justify-center text-white font-black shadow-lg shadow-blue-500/30">
+                    <i class="fa-solid fa-industry"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-bold text-lg tracking-wide text-slate-100 leading-none">الاقتصاد <span
+                            class="text-brand-accent">الجزئي</span></span>
+                    <span class="text-[10px] text-slate-400 font-medium">المحاضرة الثانية</span>
+                </div>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div
+                class="hidden lg:flex gap-1 bg-slate-800/50 p-1 rounded-full border border-slate-700/50 backdrop-blur-md">
+                <a href="../index.html"
+                    class="px-5 py-2 rounded-full text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-700/50 transition-all">الرئيسية</a>
+                <a href="#factors"
+                    class="px-5 py-2 rounded-full text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-700/50 transition-all">عناصر
+                    الإنتاج</a>
+                <a href="#ppc"
+                    class="px-5 py-2 rounded-full text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-700/50 transition-all">منحنى
+                    الإمكانيات</a>
+                <a href="#systems"
+                    class="px-5 py-2 rounded-full text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-700/50 transition-all">النظم
+                    الاقتصادية</a>
+            </div>
+
+            <button class="lg:hidden text-2xl text-slate-300">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main class="flex-grow">
+
+        <!-- Hero Section -->
+        <header id="hero" class="relative min-h-[80vh] flex items-center justify-center overflow-hidden pt-20">
+            <!-- Dynamic Background -->
+            <canvas id="particle-canvas"></canvas>
+
+            <div class="container mx-auto px-6 relative z-10 text-center">
+                <div
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-semibold mb-8 backdrop-blur-sm animate-float">
+                    <span class="relative flex h-3 w-3">
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
+                    </span>
+                    أكاديمية السادات للعلوم الإدارية
+                </div>
+
+                <h1 class="text-5xl md:text-7xl font-black mb-6 tracking-tight leading-tight text-white drop-shadow-2xl"
+                    data-aos="zoom-in" data-aos-duration="1000">
+                    عناصر الإنتاج <br> <span class="text-gradient">والمشكلة الاقتصادية</span>
+                </h1>
+
+                <p class="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto leading-relaxed mb-12" data-aos="fade-up"
+                    data-aos-delay="200">
+                    كيف نحول الموارد إلى سلع؟ وكيف نختار ماذا ننتج؟
+                    <br>
+                    <span class="text-sm font-medium opacity-80 mt-2 block">إعداد: م. اسامة زينهم</span>
+                </p>
+
+                <div class="flex flex-col md:flex-row justify-center items-center gap-6" data-aos="fade-up"
+                    data-aos-delay="400">
+                    <a href="#factors"
+                        class="px-8 py-4 bg-brand-accent text-slate-900 rounded-xl font-bold text-lg hover:scale-105 transition-all shadow-[0_0_20px_rgba(56,189,248,0.4)]">
+                        ابدا
+                    </a>
+
+                    <!-- WhatsApp Group Hero Button -->
+                    <a href="https://chat.whatsapp.com/KZVcp5IPWOpFqnOaOJKjy9" target="_blank"
+                        class="group relative inline-flex items-center gap-3 px-8 py-4 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-bold text-lg border border-slate-600 hover:border-[#25D366] transition-all hover:scale-105 hover:shadow-[#25D366]/20">
+                        <i class="fa-brands fa-whatsapp text-2xl text-[#25D366]"></i>
+                        <span>الانضمام للجروب</span>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Section 1: Factors of Production -->
+        <section id="factors" class="py-20 px-6 bg-slate-900/40 border-b border-slate-800">
+            <div class="container mx-auto max-w-6xl">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-3xl font-bold text-white mb-4">أولاً: عناصر الإنتاج (Factors of Production)</h2>
+                    <div class="h-1 w-20 bg-brand-accent mx-auto rounded-full"></div>
+                    <p class="text-slate-400 mt-4 max-w-2xl mx-auto">
+                        عملية الإنتاج هي عملية تحوير أو تغيير الموارد المتاحة لتصبح صالحة لإشباع الحاجات. يتفق
+                        الاقتصاديون على أنها أربعة:
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+
+                    <!-- 1. Land -->
+                    <div class="glass-panel p-8 rounded-3xl relative overflow-hidden group hover:border-green-500/50 transition-all"
+                        data-aos="fade-up">
+                        <div class="absolute -right-10 -top-10 w-32 h-32 bg-green-500/10 rounded-full blur-2xl"></div>
+                        <div class="relative z-10">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div
+                                    class="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center text-green-400 text-2xl">
+                                    <i class="fa-solid fa-tree"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-white">1. عنصر الطبيعة (الأرض)</h3>
+                            </div>
+                            <p class="text-slate-300 mb-4 text-sm leading-relaxed">
+                                يشمل الأرض وما فوقها وما في باطنها (غابات، معادن، نفط).
+                            </p>
+
+                            <div class="space-y-3">
+                                <h4 class="font-bold text-green-400 text-sm">خصائص عنصر الطبيعة:</h4>
+                                <ul class="text-sm text-slate-400 space-y-2 list-disc list-inside">
+                                    <li><strong class="text-white">عدم وجود نفقة إنتاج:</strong> لأنها هبة من الله، ولكن
+                                        لها "ثمن" يعتمد على ندرتها.</li>
+                                    <li>عرض الأرض <strong class="text-white">غير مرن تماماً (Perfectly
+                                            Inelastic)</strong> بالنسبة للسعر.</li>
+                                    <li><strong class="text-white">الثبات النسبي:</strong> لا يمكن زيادتها إلا في نطاق
+                                        محدود.</li>
+                                    <li><strong class="text-white">عدم التجانس:</strong> تختلف في الخصوبة والموقع.</li>
+                                </ul>
+                                <div class="bg-green-900/20 p-3 rounded-lg border border-green-500/20 mt-4">
+                                    <span class="text-green-300 font-bold block mb-1">الريع التفاوتي (Differential
+                                        Rent):</span>
+                                    <span class="text-xs text-slate-400">ينشأ بسبب عدم التجانس، وهو العائد الإضافي للأرض
+                                        الأكثر خصوبة مقارنة بالأرض الأقل تميزاً (الأرض الحدية).</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Capital -->
+                    <div class="glass-panel p-8 rounded-3xl relative overflow-hidden group hover:border-blue-500/50 transition-all"
+                        data-aos="fade-up" data-aos-delay="100">
+                        <div class="absolute -right-10 -top-10 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl"></div>
+                        <div class="relative z-10">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div
+                                    class="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400 text-2xl">
+                                    <i class="fa-solid fa-gears"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-white">2. عنصر رأس المال (Capital)</h3>
+                            </div>
+                            <p class="text-slate-300 mb-4 text-sm leading-relaxed">
+                                مجموعة الأصول والسلع الإنتاجية التي تستخدم لإنتاج سلع أخرى (الآلات، المباني).
+                            </p>
+
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-2">
+                                    <span
+                                        class="px-3 py-1 bg-blue-500/20 rounded-full text-blue-300 text-xs font-bold">العائد:
+                                        الفائدة (Interest)</span>
+                                </div>
+
+                                <div class="bg-slate-800/50 p-4 rounded-xl border border-slate-700">
+                                    <h4 class="font-bold text-white text-sm mb-2">الاستهلاك الرأسمالي (Depreciation):
+                                    </h4>
+                                    <p class="text-xs text-slate-400 mb-2">تناقص قيمة الأصل الرأسمالي بسبب:</p>
+                                    <ol class="text-xs text-slate-400 list-decimal list-inside space-y-1">
+                                        <li>الاستخدام.</li>
+                                        <li>مرور الزمن (العوامل الجوية).</li>
+                                        <li>التقادم الفني (ظهور آلات أحدث).</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Labor -->
+                    <div class="glass-panel p-8 rounded-3xl relative overflow-hidden group hover:border-amber-500/50 transition-all"
+                        data-aos="fade-up" data-aos-delay="200">
+                        <div class="absolute -right-10 -top-10 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl"></div>
+                        <div class="relative z-10">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div
+                                    class="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-400 text-2xl">
+                                    <i class="fa-solid fa-users-gear"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-white">3. عنصر العمل (Labor)</h3>
+                            </div>
+                            <p class="text-slate-300 mb-2 text-sm">
+                                كل مجهود بشري اختياري (عضلي أو ذهني) يبذل في الإنتاج مقابل أجر.
+                            </p>
+                            <p class="text-xs text-slate-500 mb-4">(شروطه: بشري، يترتب عليه إنتاج، اختياري، مقابل أجر).
+                            </p>
+
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div class="bg-slate-800 p-3 rounded-lg text-center">
+                                    <div class="text-amber-400 font-bold text-sm mb-1">الأجر النقدي</div>
+                                    <div class="text-[10px] text-slate-400">كمية النقود التي يحصل عليها العامل.</div>
+                                </div>
+                                <div class="bg-slate-800 p-3 rounded-lg text-center">
+                                    <div class="text-amber-400 font-bold text-sm mb-1">الأجر الحقيقي</div>
+                                    <div class="text-[10px] text-slate-400">كمية السلع والخدمات التي يمكن شراؤها بالأجر
+                                        النقدي.</div>
+                                </div>
+                            </div>
+
+                            <div class="bg-amber-900/20 p-3 rounded-lg border border-amber-500/20">
+                                <span class="text-amber-400 font-bold text-sm block mb-1"><i
+                                        class="fa-solid fa-scale-balanced mr-1"></i> قانون الأجر الحقيقي:</span>
+                                <p class="text-xs text-slate-300">يتأثر الأجر الحقيقي <span
+                                        class="text-green-400">طردياً</span> بالأجر النقدي و<span
+                                        class="text-red-400">عكسياً</span> بالمستوى العام للأسعار.</p>
+                            </div>
+                            <div class="mt-2 text-xs text-slate-400">
+                                * علاقة عرض العمل بالسكان: طردية (تزداد بزيادة نسبة الأعمار المتوسطة والذكور).
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Entrepreneurship -->
+                    <div class="glass-panel p-8 rounded-3xl relative overflow-hidden group hover:border-purple-500/50 transition-all"
+                        data-aos="fade-up" data-aos-delay="300">
+                        <div class="absolute -right-10 -top-10 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl"></div>
+                        <div class="relative z-10">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div
+                                    class="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center text-purple-400 text-2xl">
+                                    <i class="fa-solid fa-brain"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-white">4. عنصر التنظيم (Entrepreneurship)</h3>
+                            </div>
+                            <p class="text-slate-300 mb-4 text-sm leading-relaxed">
+                                المنظم هو من يجمع عناصر الإنتاج ويتحمل المخاطرة.
+                            </p>
+
+                            <div class="space-y-3">
+                                <div
+                                    class="px-3 py-1 bg-purple-500/20 rounded-full text-purple-300 text-xs font-bold w-fit mb-3">
+                                    العائد: الربح (Profit)</div>
+
+                                <div class="flex flex-col gap-2">
+                                    <div
+                                        class="flex items-center gap-2 p-2 rounded bg-slate-800/50 border border-slate-700">
+                                        <i class="fa-solid fa-check text-purple-400"></i>
+                                        <div>
+                                            <span class="block text-sm font-bold text-white">الربح العادي:</span>
+                                            <span class="text-xs text-slate-400">مقابل الإدارة (يدخل ضمن
+                                                التكاليف).</span>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="flex items-center gap-2 p-2 rounded bg-slate-800/50 border border-slate-700">
+                                        <i class="fa-solid fa-bolt text-purple-400"></i>
+                                        <div>
+                                            <span class="block text-sm font-bold text-white">الربح غير العادي:</span>
+                                            <span class="text-xs text-slate-400">مقابل المخاطرة (Risk).</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: PPC (Production Possibilities Curve) -->
+        <section id="ppc" class="py-24 px-6 relative">
+            <div
+                class="absolute inset-0 bg-gradient-to-b from-brand-dark via-slate-900 to-brand-dark opacity-80 pointer-events-none">
+            </div>
+
+            <div class="container mx-auto max-w-6xl relative z-10">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-4xl font-bold mb-4"><span class="text-gradient">منحنى إمكانيات الإنتاج</span> (PPC)
+                    </h2>
+                    <p class="text-slate-400">أداة تحليلية توضح إمكانيات المجتمع لإنتاج سلعتين في ظل الموارد المحدودة.
+                    </p>
+                </div>
+
+                <!-- Concepts -->
+                <div class="grid md:grid-cols-2 gap-8 mb-16">
+                    <div class="glass-panel p-6 rounded-2xl border-l-4 border-brand-accent" data-aos="fade-right">
+                        <h3 class="text-xl font-bold text-white mb-3">تكلفة الفرصة البديلة</h3>
+                        <p class="text-slate-400 text-sm leading-loose">
+                            هي أقصى عائد مضحى به نتيجة توجيه المورد لإنتاج سلعة معينة بدلاً من أخرى.
+                            <br>
+                            <span class="text-brand-accent font-bold">مثال:</span> لإنتاج المزيد من "س"، يجب التخلي عن
+                            كمية من "ص".
+                        </p>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl border-l-4 border-brand-accent" data-aos="fade-left">
+                        <h3 class="text-xl font-bold text-white mb-3">قانون الكفاءة الإنتاجية</h3>
+                        <p class="text-slate-400 text-sm leading-loose">
+                            مقياس لمدى استغلال الموارد.
+                            <br>
+                            * إذا (النتيجة = 1): <span class="text-green-400 font-bold">كفاءة قصوى</span>.
+                            <br>
+                            * إذا (النتيجة < 1): <span class="text-red-400 font-bold">عدم استخدام أمثل (بطالة)</span>.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Table & Graph Container -->
+                <div class="grid lg:grid-cols-5 gap-8 mb-16">
+                    <!-- Table side (2 cols) -->
+                    <div class="lg:col-span-2 glass-panel p-6 rounded-2xl" data-aos="fade-up">
+                        <h3 class="text-lg font-bold text-white mb-4 border-b border-slate-700 pb-2">جدول (2-1):
+                            المجموعات السلعية</h3>
+                        <div class="overflow-x-auto">
+                            <table class="custom-table text-sm">
+                                <thead>
+                                    <tr>
+                                        <th>م</th>
+                                        <th>ص (إنتاجية)</th>
+                                        <th>س (استهلاكية)</th>
+                                        <th>التكلفة البديلة</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="font-bold">أ</td>
+                                        <td>صفر</td>
+                                        <td>200</td>
+                                        <td>-</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-bold">ب</td>
+                                        <td>2</td>
+                                        <td>180</td>
+                                        <td class="text-red-400 font-bold">20</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-bold">ج</td>
+                                        <td>4</td>
+                                        <td>140</td>
+                                        <td class="text-red-400 font-bold">40</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-bold">د</td>
+                                        <td>6</td>
+                                        <td>80</td>
+                                        <td class="text-red-400 font-bold">60</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-bold">هـ</td>
+                                        <td>8</td>
+                                        <td>صفر</td>
+                                        <td class="text-red-400 font-bold">80</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="mt-4 text-xs text-slate-400 bg-slate-800 p-3 rounded-lg">
+                            <i class="fa-solid fa-circle-info text-brand-accent ml-1"></i>
+                            نلاحظ تزايد التكلفة (20، 40، 60، 80) لزيادة ص بمقدار وحدتين، مما يعني أن <strong>تكلفة
+                                الفرصة البديلة متزايدة</strong>.
+                        </div>
+                    </div>
+
+                    <!-- Graph visualization (3 cols) -->
+                    <div class="lg:col-span-3 glass-panel p-6 rounded-2xl flex flex-col justify-center items-center relative"
+                        data-aos="fade-up" data-aos-delay="200">
+                        <h3 class="text-lg font-bold text-white mb-4">شكل (2-1): منحنى إمكانيات الإنتاج</h3>
+
+                        <!-- SVG PPC Graph Enhanced -->
+                        <div
+                            class="w-full relative bg-slate-900/50 rounded-xl border border-slate-700 p-4 overflow-hidden group">
+                            <!-- Glow Effect using CSS only for performance -->
+                            <div
+                                class="absolute inset-0 bg-blue-500/5 group-hover:bg-blue-500/10 transition-colors duration-500">
+                            </div>
+
+                            <svg viewBox="-40 -20 500 400" class="w-full h-auto max-h-[400px] relative z-10"
+                                style="overflow: visible;">
+                                <defs>
+                                    <linearGradient id="curveGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#38bdf8;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#818cf8;stop-opacity:1" />
+                                    </linearGradient>
+                                    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6"
+                                        markerHeight="6" orient="auto">
+                                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
+                                    </marker>
+                                    <!-- Grid Pattern -->
+                                    <pattern id="grid" width="40" height="35" patternUnits="userSpaceOnUse">
+                                        <path d="M 40 0 L 0 0 0 35" fill="none" stroke="rgba(148, 163, 184, 0.1)"
+                                            stroke-width="1" />
+                                    </pattern>
+                                </defs>
+
+                                <!-- Grid Background (Area: 8*40=320 width, 200*1.5=300 height approx scale) -->
+                                <!-- Scaling: X: 1 unit = 40px (Total 8 units = 320px) -->
+                                <!-- Scaling: Y: 10 units = 15px (Total 200 units = 300px) -->
+                                <!-- Origin (40, 320) -->
+
+                                <!-- Axes -->
+                                <line x1="40" y1="320" x2="400" y2="320" stroke="#94a3b8" stroke-width="2"
+                                    marker-end="url(#arrow)" /> <!-- X Axis -->
+                                <line x1="40" y1="320" x2="40" y2="10" stroke="#94a3b8" stroke-width="2"
+                                    marker-end="url(#arrow)" /> <!-- Y Axis -->
+
+                                <!-- X Axis Labels (Units 1-8) -->
+                                <text x="400" y="350" fill="#94a3b8" font-size="14" font-weight="bold"
+                                    text-anchor="middle">السلع الإنتاجية (ص)</text>
+                                <!-- Ticks X -->
+                                <line x1="120" y1="320" x2="120" y2="325" stroke="#64748b" stroke-width="2" /> <text
+                                    x="120" y="340" fill="#64748b" font-size="10" text-anchor="middle">2</text>
+                                <line x1="200" y1="320" x2="200" y2="325" stroke="#64748b" stroke-width="2" /> <text
+                                    x="200" y="340" fill="#64748b" font-size="10" text-anchor="middle">4</text>
+                                <line x1="280" y1="320" x2="280" y2="325" stroke="#64748b" stroke-width="2" /> <text
+                                    x="280" y="340" fill="#64748b" font-size="10" text-anchor="middle">6</text>
+                                <line x1="360" y1="320" x2="360" y2="325" stroke="#64748b" stroke-width="2" /> <text
+                                    x="360" y="340" fill="#64748b" font-size="10" text-anchor="middle">8</text>
+
+                                <!-- Y Axis Labels (Units 0-200) -->
+                                <text x="0" y="0" fill="#94a3b8" font-size="14" font-weight="bold" text-anchor="middle"
+                                    transform="rotate(-90, 15, 160)">السلع الاستهلاكية (س)</text>
+                                <!-- Ticks Y (Scale: 300px = 200 units => 1.5px per unit) -->
+                                <line x1="35" y1="20" x2="40" y2="20" stroke="#64748b" stroke-width="2" /> <text x="30"
+                                    y="25" fill="#64748b" font-size="10" text-anchor="end">200</text>
+                                <line x1="35" y1="50" x2="40" y2="50" stroke="#64748b" stroke-width="2" /> <text x="30"
+                                    y="55" fill="#64748b" font-size="10" text-anchor="end">180</text>
+                                <line x1="35" y1="110" x2="40" y2="110" stroke="#64748b" stroke-width="2" /> <text
+                                    x="30" y="115" fill="#64748b" font-size="10" text-anchor="end">140</text>
+                                <line x1="35" y1="200" x2="40" y2="200" stroke="#64748b" stroke-width="2" /> <text
+                                    x="30" y="205" fill="#64748b" font-size="10" text-anchor="end">80</text>
+
+                                <!-- Plotting Points Calculation -->
+                                <!-- A (0, 200) -> x=40, y=320 - (200*1.5) = 20 -->
+                                <!-- B (2, 180) -> x=40 + (2*40) = 120, y=320 - (180*1.5) = 50 -->
+                                <!-- C (4, 140) -> x=40 + (4*40) = 200, y=320 - (140*1.5) = 110 -->
+                                <!-- D (6, 80)  -> x=40 + (6*40) = 280, y=320 - (80*1.5) = 200 -->
+                                <!-- E (8, 0)   -> x=40 + (8*40) = 360, y=320 -->
+
+                                <!-- Curve Path -->
+                                <!-- Using standard cubic bezier to fit points roughly or polyline for exactness with curve smoothing -->
+                                <!-- Let's use a path connecting points with smooth curve -->
+                                <path d="M 40 20 L 120 50 L 200 110 L 280 200 L 360 320" stroke="url(#curveGradient)"
+                                    stroke-width="3" fill="none" stroke-linejoin="round" stroke-linecap="round" />
+                                <!-- Dotted lines for projection -->
+                                <!-- B -->
+                                <path d="M 120 320 L 120 50 L 40 50" stroke="#475569" stroke-width="1"
+                                    stroke-dasharray="4,4" opacity="0.5" />
+                                <!-- C -->
+                                <path d="M 200 320 L 200 110 L 40 110" stroke="#475569" stroke-width="1"
+                                    stroke-dasharray="4,4" opacity="0.5" />
+                                <!-- D -->
+                                <path d="M 280 320 L 280 200 L 40 200" stroke="#475569" stroke-width="1"
+                                    stroke-dasharray="4,4" opacity="0.5" />
+
+                                <!-- Points & Labels -->
+                                <!-- A -->
+                                <circle cx="40" cy="20" r="6" fill="#020617" stroke="#38bdf8" stroke-width="2"
+                                    class="cursor-pointer hover:r-8 transition-all">
+                                    <title>(0, 200) - أ</title>
+                                </circle>
+                                <text x="55" y="25" fill="#e2e8f0" font-weight="bold" font-size="12">أ</text>
+
+                                <!-- B -->
+                                <circle cx="120" cy="50" r="6" fill="#020617" stroke="#38bdf8" stroke-width="2"
+                                    class="cursor-pointer hover:r-8 transition-all">
+                                    <title>(2, 180) - ب</title>
+                                </circle>
+                                <text x="130" y="45" fill="#e2e8f0" font-weight="bold" font-size="12">ب</text>
+
+                                <!-- C -->
+                                <circle cx="200" cy="110" r="6" fill="#020617" stroke="#38bdf8" stroke-width="2"
+                                    class="cursor-pointer hover:r-8 transition-all">
+                                    <title>(4, 140) - ج</title>
+                                </circle>
+                                <text x="210" y="105" fill="#e2e8f0" font-weight="bold" font-size="12">ج</text>
+
+                                <!-- D -->
+                                <circle cx="280" cy="200" r="6" fill="#020617" stroke="#38bdf8" stroke-width="2"
+                                    class="cursor-pointer hover:r-8 transition-all">
+                                    <title>(6, 80) - د</title>
+                                </circle>
+                                <text x="290" y="195" fill="#e2e8f0" font-weight="bold" font-size="12">د</text>
+
+                                <!-- E -->
+                                <circle cx="360" cy="320" r="6" fill="#020617" stroke="#38bdf8" stroke-width="2"
+                                    class="cursor-pointer hover:r-8 transition-all">
+                                    <title>(8, 0) - هـ</title>
+                                </circle>
+                                <text x="365" y="310" fill="#e2e8f0" font-weight="bold" font-size="12">هـ</text>
+
+                                <!-- Inefficient Point M -->
+                                <circle cx="160" cy="240" r="6" fill="#ef4444" stroke="#020617" stroke-width="2" />
+                                <text x="170" y="245" fill="#ef4444" font-weight="bold" font-size="12">م (بطالة)</text>
+
+                                <!-- Unattainable Point N -->
+                                <circle cx="340" cy="80" r="6" fill="#f59e0b" stroke="#020617" stroke-width="2" />
+                                <text x="350" y="85" fill="#f59e0b" font-weight="bold" font-size="12">ن (مستحيل)</text>
+
+                            </svg>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-2 mt-4 w-full">
+                            <div class="text-center p-2 rounded bg-green-500/10 border border-green-500/20">
+                                <span class="block text-green-400 font-bold text-xs">نقاط على المنحنى</span>
+                                <span class="text-[10px] text-slate-400">استخدام كامل (كفاءة)</span>
+                            </div>
+                            <div class="text-center p-2 rounded bg-red-500/10 border border-red-500/20">
+                                <span class="block text-red-400 font-bold text-xs">داخل المنحنى (م)</span>
+                                <span class="text-[10px] text-slate-400">بطالة / إهدار</span>
+                            </div>
+                            <div class="text-center p-2 rounded bg-amber-500/10 border border-amber-500/20">
+                                <span class="block text-amber-400 font-bold text-xs">خارج المنحنى (ن)</span>
+                                <span class="text-[10px] text-slate-400">غير ممكن (مشكلة الندرة)</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 text-sm text-slate-400 w-full">
+                            <strong class="text-white block mb-1">شكل المنحنى:</strong>
+                            <ul class="list-disc list-inside text-xs space-y-1">
+                                <li><span class="text-brand-accent">سالب الميل:</span> علاقة عكسية (لزيادة سلعة ننقص
+                                    أخرى).</li>
+                                <li><span class="text-brand-accent">مقعر لنقطة الأصل:</span> بسبب تزايد تكلفة الفرصة
+                                    البديلة.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Applications of PPC -->
+                <div class="grid md:grid-cols-3 gap-6" data-aos="fade-up">
+                    <div class="glass-panel p-6 rounded-2xl hover:-translate-y-2 transition-transform">
+                        <div
+                            class="w-10 h-10 bg-brand-accent/20 rounded-lg flex items-center justify-center text-brand-accent mb-4">
+                            <i class="fa-solid fa-clipboard-question"></i>
+                        </div>
+                        <h4 class="font-bold text-white mb-2">1. ماذا ننتج؟</h4>
+                        <p class="text-sm text-slate-400">تحددها النقطة المختارة على المنحنى حسب تفضيلات المجتمع.</p>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl hover:-translate-y-2 transition-transform">
+                        <div
+                            class="w-10 h-10 bg-brand-accent/20 rounded-lg flex items-center justify-center text-brand-accent mb-4">
+                            <i class="fa-solid fa-gears"></i>
+                        </div>
+                        <h4 class="font-bold text-white mb-2">2. كيف ننتج؟</h4>
+                        <p class="text-sm text-slate-400">أي نقطة <strong class="text-white">على</strong> المنحنى تعني
+                            الكفاءة الفنية في الإنتاج.</p>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl hover:-translate-y-2 transition-transform">
+                        <div
+                            class="w-10 h-10 bg-brand-accent/20 rounded-lg flex items-center justify-center text-brand-accent mb-4">
+                            <i class="fa-solid fa-people-arrows"></i>
+                        </div>
+                        <h4 class="font-bold text-white mb-2">3. لمن ننتج؟ (العدالة)</h4>
+                        <p class="text-sm text-slate-400">
+                            * الإنحياز للسلع الكمالية (س) = تفضيل الأغنياء.
+                            <br>
+                            * الإنحياز للضرورية (ص) = عدالة أكبر.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-6 glass-panel p-4 rounded-xl text-center border-t border-brand-accent"
+                    data-aos="fade-up">
+                    <h4 class="font-bold text-white mb-1">النمو الاقتصادي (شكل 2-3)</h4>
+                    <p class="text-sm text-slate-400">يتم تمثيله بانتقال المنحنى بالكامل إلى <span
+                            class="text-green-400 font-bold">اليمين/الأعلى</span> (نتيجة زيادة الموارد أو التكنولوجيا).
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 3: Economic Systems -->
+        <section id="systems" class="py-20 px-6 bg-slate-900/40">
+            <div class="container mx-auto max-w-6xl">
+                <div class="text-center mb-12" data-aos="fade-up">
+                    <h2 class="text-3xl font-bold text-white mb-4">ثالثاً: النظم الاقتصادية</h2>
+                    <p class="text-slate-400">كيف تعالج المجتمعات المشكلة الاقتصادية؟</p>
+                </div>
+
+                <!-- Comparison Table -->
+                <div class="overflow-x-auto glass-panel rounded-2xl mb-12" data-aos="fade-up">
+                    <table class="w-full text-right">
+                        <thead>
+                            <tr class="bg-slate-800/80 text-white border-b border-slate-700">
+                                <th class="p-6">وجه المقارنة</th>
+                                <th class="p-6 text-blue-400">النظام الرأسمالي الحر (Capitalism)</th>
+                                <th class="p-6 text-red-400">النظام الاشتراكي (Socialism)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-slate-300">
+                            <tr class="border-b border-slate-700/50 hover:bg-slate-800/30">
+                                <td class="p-6 font-bold text-white">الملكية</td>
+                                <td class="p-6">الملكية <strong class="text-white">الخاصة</strong> هي الأساس.</td>
+                                <td class="p-6">الملكية <strong class="text-white">العامة</strong> لوسائل الإنتاج.</td>
+                            </tr>
+                            <tr class="border-b border-slate-700/50 hover:bg-slate-800/30">
+                                <td class="p-6 font-bold text-white">الدافع</td>
+                                <td class="p-6">المصلحة الخاصة (<strong class="text-white">الربح</strong>).</td>
+                                <td class="p-6">المصلحة العامة (إشباع الحاجات).</td>
+                            </tr>
+                            <tr class="border-b border-slate-700/50 hover:bg-slate-800/30">
+                                <td class="p-6 font-bold text-white">آلية الحل</td>
+                                <td class="p-6"><strong class="text-white">جهاز الثمن</strong> (تفاعل العرض والطلب).
+                                </td>
+                                <td class="p-6"><strong class="text-white">التخطيط المركزي</strong> الشامل.</td>
+                            </tr>
+                            <tr class="border-b border-slate-700/50 hover:bg-slate-800/30">
+                                <td class="p-6 font-bold text-white">دور الدولة</td>
+                                <td class="p-6">محدود جداً (الأمن، الدفاع، العدالة).</td>
+                                <td class="p-6">تسيطر على النشاط الاقتصادي وتحدد الأسعار.</td>
+                            </tr>
+                            <tr class="border-b border-slate-700/50 hover:bg-slate-800/30">
+                                <td class="p-6 font-bold text-white">المميزات</td>
+                                <td class="p-6">الكفاءة الاقتصادية، الحرية.</td>
+                                <td class="p-6">محاولة تحقيق العدالة الاجتماعية.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-6 font-bold text-white">العيوب</td>
+                                <td class="p-6">الاحتكار، الأزمات (بطالة/تضخم)، سوء توزيع الدخل.</td>
+                                <td class="p-6">غياب الحافز، البيروقراطية، انخفاض الكفاءة، مصادرة الحرية.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Mixed Economy -->
+                <div class="glass-panel p-8 rounded-3xl border border-purple-500/30 bg-purple-900/10 text-center"
+                    data-aos="fade-up">
+                    <h3 class="text-2xl font-bold text-white mb-4">النظام المختلط (Mixed Economy)</h3>
+                    <p class="text-slate-300 mb-6 max-w-3xl mx-auto leading-relaxed">
+                        نظام يجمع بين مزايا النظامين (الرأسمالي والاشتراكي). يجمع بين الملكية العامة والخاصة، وبين آلية
+                        السوق والتخطيط الحكومي.
+                    </p>
+                    <div class="inline-block bg-slate-900/50 px-6 py-3 rounded-xl border border-slate-700">
+                        <i class="fa-solid fa-flag text-red-500 ml-2"></i>
+                        <span class="text-white font-bold">مثال:</span>
+                        <span class="text-slate-400">النظام الاقتصادي في <strong class="text-white">مصر</strong> يعتبر
+                            مختلطاً، حيث تفاوتت درجاته من الميل للاشتراكية (الستينيات) إلى الميل للرأسمالية (الانفتاح
+                            والإصلاح الاقتصادي).</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- New Exam Section Link -->
+        <section class="py-16 px-6 bg-gradient-to-t from-slate-900 via-slate-900 to-transparent relative z-20">
+            <div class="container mx-auto max-w-4xl text-center" data-aos="fade-up">
+                <div
+                    class="glass-panel p-10 rounded-3xl border border-brand-accent/30 shadow-2xl shadow-brand-accent/20">
+                    <div
+                        class="w-20 h-20 bg-brand-accent/10 rounded-full flex items-center justify-center mx-auto mb-6 animate-[pulse_4s_infinite]">
+                        <i class="fa-solid fa-graduation-cap text-4xl text-brand-accent"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-white mb-4">هل أنت مستعد لاختبار معلوماتك؟</h2>
+                    <p class="text-slate-300 mb-8 max-w-xl mx-auto">
+                        قم بحل مجموعة من الأسئلة التفاعلية لتأكيد فهمك لمفاهيم المحاضرة (عناصر الإنتاج، المشكلة
+                        الاقتصادية، النظم الاقتصادية).
+                    </p>
+                    <a href="QA/index.html"
+                        class="inline-flex items-center gap-3 px-8 py-4 bg-brand-accent text-slate-900 rounded-xl font-bold text-lg hover:bg-white hover:scale-105 transition-all shadow-lg hover:shadow-brand-accent/50 group">
+                        <span>ابدأ الاختبار الآن</span>
+                        <i class="fa-solid fa-arrow-left group-hover:-translate-x-2 transition-transform"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-10 bg-slate-900 border-t border-slate-800 text-center">
+            <p class="text-slate-500">تم تطوير هذا المحتوى التعليمي ليوافق المنهج الدراسي - م. اسامة زينهم</p>
+            <p class="text-slate-600 text-sm mt-2">&copy; 2025 مبادئ الاقتصاد الجزئي</p>
+        </footer>
+
+    </main>
+
+    <!-- Scripts -->
+    <script>
+        AOS.init({
+            once: true,
+            offset: 50,
+            duration: 800,
+        });
+
+        // Simple Background Animation Logic
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2;
+                this.alpha = Math.random() * 0.5;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(56, 189, 248, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 50; i++) particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+        initParticles();
+        animate();
+    </script>
+
+
+</body>
+
+</html>

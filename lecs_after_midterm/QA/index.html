@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار محاضرات ما بعد النصفي</title>
+
+    <!-- Dependencies -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Inter:wght@300;400;600;800&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Syntax Highlighting -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+
+    <!-- MathJax -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            primary: '#8b5cf6', // Purple
+                            secondary: '#10b981', // Emerald
+                            dark: '#0f172a', // Slate 900
+                            light: '#f8fafc' // Slate 50
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        arabic: ['Cairo', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            /* Dark background matching lecture */
+            color: #f8fafc;
+        }
+
+        .font-arabic {
+            font-family: 'Cairo', sans-serif;
+        }
+
+        /* Custom Scrollbar for Code Blocks */
+        pre::-webkit-scrollbar {
+            height: 8px;
+            background-color: #1e293b;
+        }
+
+        pre::-webkit-scrollbar-thumb {
+            background-color: #475569;
+            border-radius: 4px;
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+
+<body class="bg-slate-900 text-slate-100 min-h-screen">
+
+    <!-- Header -->
+    <header class="pt-32 pb-20 px-6 bg-slate-950 text-white text-center relative overflow-hidden">
+        <div
+            class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/circuit-board.png')]">
+        </div>
+
+        <!-- Back Button -->
+        <a href="../index.html"
+            class="absolute top-6 left-6 inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors z-20">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>العودة للمحاضرة</span>
+        </a>
+
+        <!-- Home Button -->
+        <a href="../../index.html"
+            class="absolute top-6 right-6 inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors z-20">
+            <span>الرئيسية</span>
+            <i class="fa-solid fa-house"></i>
+        </a>
+
+        <div class="container mx-auto relative z-10">
+            <div
+                class="inline-block px-3 py-1 mb-4 text-xs font-bold tracking-wider text-purple-400 uppercase border border-purple-500/30 rounded-full bg-purple-500/10">
+                Final Assessment
+            </div>
+            <a href="../../index.html" class="block hover:opacity-80 transition-opacity">
+                <h1 class="text-4xl md:text-6xl font-black mb-4 tracking-tight font-arabic">
+                    اختبار <span class="text-purple-500">ما بعد النصفي</span>
+                </h1>
+            </a>
+            <p class="text-slate-400 font-arabic text-lg max-w-2xl mx-auto">
+                أسئلة شاملة تغطي المرونة، توازن المستهلك، نظرية الإنتاج، التكاليف، وهياكل الأسواق.
+            </p>
+
+            <!-- WhatsApp Group Hero Button -->
+            <div class="mt-8 flex justify-center">
+                <a href="https://chat.whatsapp.com/KZVcp5IPWOpFqnOaOJKjy9" target="_blank"
+                    class="inline-flex items-center gap-3 px-6 py-3 bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-xl shadow-lg hover:shadow-[#25D366]/40 transition-all hover:-translate-y-1 group">
+                    <i class="fa-brands fa-whatsapp text-2xl"></i>
+                    <span class="font-bold">الانضمام لجروب الواتساب</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12 max-w-5xl space-y-12">
+
+        <!-- Exam Section -->
+        <section id="exam" class="py-8">
+            <div id="questions-container" class="space-y-8 max-w-4xl mx-auto" dir="rtl">
+                <!-- Questions will be injected here via JS -->
+                <div class="flex justify-center">
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-950 border-t border-slate-800 py-12 mt-12 text-center text-slate-500 text-sm">
+        <p>© 2025 أكاديمية السادات للعلوم الإدارية</p>
+    </footer>
+
+    <script>
+        let questions = [];
+
+        async function fetchQuestions() {
+            try {
+                const response = await fetch('questions.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                questions = await response.json();
+                renderQuestions();
+            } catch (error) {
+                console.error('Error fetching questions:', error);
+                document.getElementById('questions-container').innerHTML = `
+                    <div class="bg-red-900/50 border border-red-500 text-red-200 px-4 py-3 rounded relative" role="alert">
+                        <strong class="font-bold">Error!</strong>
+                        <span class="block sm:inline"> Failed to load questions. Please check if questions.json exists.</span>
+                        <p class="text-sm mt-2">${error.message}</p>
+                    </div>`;
+            }
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            if (questions.length === 0) {
+                container.innerHTML = '<p class="text-center text-slate-500">No questions found.</p>';
+                return;
+            }
+
+            questions.forEach((item, index) => {
+                const qDiv = document.createElement('div');
+                qDiv.className = 'glass-panel p-6 rounded-2xl shadow-lg transition-all duration-300 hover:border-purple-500/30';
+
+                // Options Rendering
+                let optionsHtml = '';
+                if (item.options && item.options.length > 0) {
+                    item.options.forEach((opt, i) => {
+                        optionsHtml += `
+                        <div class="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-800 cursor-pointer group transition-colors border border-transparent hover:border-slate-700" onclick="checkAnswer(${index}, ${i})">
+                            <div class="w-8 h-8 rounded-full border-2 border-slate-600 flex items-center justify-center text-sm font-bold text-slate-400 group-hover:border-purple-500 group-hover:text-purple-500 transition-colors" id="q${index}-opt${i}">
+                                ${String.fromCharCode(65 + i)}
+                            </div>
+                            <span class="text-slate-300 group-hover:text-white font-arabic text-lg">${opt}</span>
+                        </div>`;
+                    });
+                } else {
+                    // True/False fallbacks if no options array provided (simple types)
+                    // But our JSON has options for T/F too usually? Yes.
+                }
+
+                // Math/Code snippet if exists
+                let codeHtml = '';
+                if (item.code) {
+                    // Check if it looks like a math formula (simple heuristic or just treat all 'code' as potential math/text)
+                    // Given the context, we will render it as a math block
+                    codeHtml = `
+                    <div class="mt-4 mb-4 bg-slate-800/50 p-4 rounded-lg border border-purple-500/20 text-center" dir="ltr">
+                        <span class="text-purple-300 font-mono text-lg">${item.code}</span>
+                    </div>
+                    `;
+                }
+
+                qDiv.innerHTML = `
+                    <div class="flex items-start gap-4 mb-6">
+                        <span class="bg-purple-900 text-purple-200 text-sm font-bold px-3 py-1.5 rounded-lg shrink-0">س${index + 1}</span>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-white text-xl leading-snug font-arabic mb-2">${item.question}</h3>
+                            ${codeHtml}
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2 mb-6 pl-0 md:pr-14">
+                        ${optionsHtml}
+                    </div>
+    
+                    <div id="ans-${index}" class="hidden pl-0 md:pl-14">
+                        <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 overflow-hidden shadow-sm">
+                            <div class="p-4 bg-emerald-900/30 border-b border-emerald-500/20 flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+                                    <span class="font-bold text-emerald-400">الإجابة الصحيحة: ${String.fromCharCode(65 + item.correctAnswer)}</span>
+                                </div>
+                            </div>
+                            <div class="p-6 text-emerald-100 font-arabic text-right leading-relaxed">
+                                ${item.explanation}
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="pl-0 md:pr-14 mt-4">
+                        <button onclick="toggleAnswer(${index})" class="group flex items-center gap-2 text-sm font-bold text-slate-400 hover:text-purple-400 transition-colors px-4 py-2 rounded-lg hover:bg-slate-800">
+                            <i class="fa-regular fa-eye group-hover:scale-110 transition-transform"></i>
+                            <span>إظهار الإجابة</span>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(qDiv);
+            });
+
+            // Re-run highlighting for new code blocks and Typeset Math
+            hljs.highlightAll();
+            // Trigger MathJax typeset if available (though purely text-based math was used here, future-proofing)
+            if (window.MathJax) {
+                // MathJax.typesetPromise();
+            }
+        }
+
+        function toggleAnswer(index) {
+            const el = document.getElementById(`ans-${index}`);
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+                el.classList.add('block');
+            } else {
+                el.classList.add('hidden');
+                el.classList.remove('block');
+            }
+        }
+
+        function checkAnswer(qIndex, optIndex) {
+            const circle = document.getElementById(`q${qIndex}-opt${optIndex}`);
+            // Reset others
+            for (let i = 0; i < 4; i++) {
+                const c = document.getElementById(`q${qIndex}-opt${i}`);
+                if (c) c.classList.remove('bg-purple-600', 'text-white', 'border-purple-600');
+            }
+            // Set active
+            if (circle) circle.classList.add('bg-purple-600', 'text-white', 'border-purple-600');
+        }
+
+        // Initialize
+        fetchQuestions();
+    </script>
+
+
+</body>
+
+</html>

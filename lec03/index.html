@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="ar" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مبادئ الاقتصاد الجزئي - المحاضرة الثالثة | نظرية الطلب والعرض</title>
+    <meta name="description" content="شرح تفاعلي لنظرية الطلب والعرض، قوانينها، منحنياتها، والعوامل المؤثرة عليها.">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <!-- Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0f172a',
+                            light: '#1e293b',
+                            accent: '#8b5cf6', // Violet for Lecture 3 (Demand/Supply)
+                            glow: '#a78bfa',
+                            success: '#10b981',
+                            warning: '#f59e0b',
+                            danger: '#ef4444'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                        arabic: ['Cairo', 'sans-serif']
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #020617;
+            color: #f1f5f9;
+            overflow-x: hidden;
+            font-family: 'Cairo', sans-serif;
+            direction: rtl;
+        }
+
+        /* Dark Glass Effect */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glass-header {
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+        }
+
+        /* Typography & Gradients */
+        .text-gradient {
+            background: linear-gradient(135deg, #8b5cf6 0%, #d8b4fe 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #020617;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8b5cf6;
+        }
+
+        /* Canvas Styles */
+        #particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Table Styling */
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .custom-table th,
+        .custom-table td {
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .custom-table th {
+            background: rgba(139, 92, 246, 0.1);
+            color: #a78bfa;
+            font-weight: 700;
+        }
+
+        .custom-table tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+    </style>
+</head>
+
+<body class="antialiased flex flex-col min-h-screen relative selection:bg-brand-accent selection:text-brand-dark">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 glass-header transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                <div
+                    class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-accent to-indigo-600 flex items-center justify-center text-white font-black shadow-lg shadow-indigo-500/30">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-bold text-lg tracking-wide text-slate-100 leading-none">الاقتصاد <span
+                            class="text-brand-accent">الجزئي</span></span>
+                    <span class="text-[10px] text-slate-400 font-medium">المحاضرة الثالثة</span>
+                </div>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div
+                class="hidden lg:flex gap-1 bg-slate-800/50 p-1 rounded-full border border-slate-700/50 backdrop-blur-md">
+                <a href="../index.html"
+                    class="px-5 py-2 rounded-full text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-700/50 transition-all">الرئيسية</a>
+                <a href="#demand"
+                    class="px-5 py-2 rounded-full text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-700/50 transition-all">الطلب</a>
+                <a href="#determinants"
+                    class="px-5 py-2 rounded-full text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-700/50 transition-all">محددات
+                    الطلب</a>
+                <a href="#changes"
+                    class="px-5 py-2 rounded-full text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-700/50 transition-all">التغيرات</a>
+                <a href="#supply"
+                    class="px-5 py-2 rounded-full text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-700/50 transition-all">العرض</a>
+            </div>
+
+            <button class="lg:hidden text-2xl text-slate-300">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main class="flex-grow">
+
+        <!-- Hero Section -->
+        <header id="hero" class="relative min-h-[85vh] flex items-center justify-center overflow-hidden pt-20">
+            <!-- Dynamic Background -->
+            <canvas id="particle-canvas"></canvas>
+
+            <div class="container mx-auto px-6 relative z-10 text-center">
+                <div
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-sm font-semibold mb-8 backdrop-blur-sm animate-float">
+                    <span class="relative flex h-3 w-3">
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-violet-500"></span>
+                    </span>
+                    أكاديمية السادات للعلوم الإدارية
+                </div>
+
+                <h1 class="text-5xl md:text-7xl font-black mb-6 tracking-tight leading-tight text-white drop-shadow-2xl"
+                    data-aos="zoom-in" data-aos-duration="1000">
+                    قوى السوق <br> <span class="text-gradient">الطلب والعرض</span>
+                </h1>
+
+                <p class="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto leading-relaxed mb-12" data-aos="fade-up"
+                    data-aos-delay="200">
+                    كيف يتفاعل المشتري والبائع في السوق؟ اكتشف أسرار القوانين التي تحكم الأسعار والكميات.
+                    <br>
+                    <span class="text-sm font-medium opacity-80 mt-2 block">إعداد: م. اسامة زينهم</span>
+                </p>
+
+                <div class="flex flex-col md:flex-row justify-center items-center gap-6" data-aos="fade-up"
+                    data-aos-delay="400">
+                    <a href="#demand"
+                        class="px-8 py-4 bg-brand-accent text-slate-900 rounded-xl font-bold text-lg hover:scale-105 transition-all shadow-[0_0_20px_rgba(139,92,246,0.4)]">
+                        ابدأ الآن
+                    </a>
+
+                    <!-- WhatsApp Group Hero Button -->
+                    <a href="https://chat.whatsapp.com/KZVcp5IPWOpFqnOaOJKjy9" target="_blank"
+                        class="group relative inline-flex items-center gap-3 px-8 py-4 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-bold text-lg border border-slate-600 hover:border-[#25D366] transition-all hover:scale-105 hover:shadow-[#25D366]/20">
+                        <i class="fa-brands fa-whatsapp text-2xl text-[#25D366]"></i>
+                        <span>الانضمام للجروب</span>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Section 1: Consumer Demand -->
+        <section id="demand" class="py-24 px-6 bg-slate-900/40 border-b border-slate-800">
+            <div class="container mx-auto max-w-6xl">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-3xl font-bold text-white mb-4">أولاً: طلب المستهلك (Consumer's Demand)</h2>
+                    <div class="h-1 w-20 bg-brand-accent mx-auto rounded-full"></div>
+                </div>
+
+                <!-- Definition Card -->
+                <div class="glass-panel p-8 rounded-3xl mb-16 border-l-4 border-brand-accent" data-aos="fade-up">
+                    <h3 class="text-2xl font-bold text-white mb-4">تعريف الطلب</h3>
+                    <p class="text-xl text-slate-300 leading-relaxed max-w-4xl">
+                        هو الكميات من السلعة التي يكون المستهلك <strong class="text-brand-accent">مستعداً و
+                            قادراً</strong> على شرائها عند الأثمان المختلفة خلال فترة زمنية معينة، مع افتراض ثبات
+                        العوامل الأخرى.
+                    </p>
+                    <div class="grid md:grid-cols-3 gap-6 mt-8">
+                        <div class="bg-slate-800/50 p-4 rounded-xl border border-slate-700">
+                            <i class="fa-solid fa-list-ol text-violet-400 mb-2 text-xl"></i>
+                            <h4 class="font-bold text-white mb-1">جدول لا رقم</h4>
+                            <p class="text-xs text-slate-400">قائمة كميات عند أسعار مختلفة، وليس كمية واحدة.</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-4 rounded-xl border border-slate-700">
+                            <i class="fa-solid fa-wallet text-violet-400 mb-2 text-xl"></i>
+                            <h4 class="font-bold text-white mb-1">رغبة + قدرة</h4>
+                            <p class="text-xs text-slate-400">الرغبة وحدها لا تكفي! يجب توفر القوة الشرائية.</p>
+                        </div>
+                        <div class="bg-slate-800/50 p-4 rounded-xl border border-slate-700">
+                            <i class="fa-solid fa-thumbtack text-violet-400 mb-2 text-xl"></i>
+                            <h4 class="font-bold text-white mb-1">ثبات العوامل</h4>
+                            <p class="text-xs text-slate-400">نفترض تغير السعر فقط، وثبات الدخل والذوق وباقي العوامل
+                                (Ceteris Paribus).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Law of Demand Table & Graph -->
+                <div class="grid lg:grid-cols-5 gap-8">
+                    <!-- Table Side -->
+                    <div class="lg:col-span-2 glass-panel p-6 rounded-2xl" data-aos="fade-right">
+                        <h3 class="text-lg font-bold text-white mb-4 border-b border-slate-700 pb-2">جدول (3-1): طلب
+                            المستهلك</h3>
+                        <div class="overflow-x-auto">
+                            <table class="custom-table text-sm">
+                                <thead>
+                                    <tr>
+                                        <th>الثمن (ج)</th>
+                                        <th>الكمية المطلوبة (وحدة)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="font-bold text-white">12</td>
+                                        <td>100</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-bold text-white">10</td>
+                                        <td>200</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-bold text-white">8</td>
+                                        <td>300</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-bold text-white">6</td>
+                                        <td>400</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-bold text-white">4</td>
+                                        <td>500</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-bold text-white">2</td>
+                                        <td>600</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="mt-6 bg-violet-500/10 border border-violet-500/20 p-4 rounded-xl">
+                            <h4 class="font-bold text-violet-400 text-sm mb-2"><i class="fa-solid fa-gavel mr-2"></i>
+                                قانون الطلب:</h4>
+                            <p class="text-slate-300 text-sm">علاقة <strong class="text-red-400">عكسية</strong> بين
+                                الثمن والكمية المطلوبة.</p>
+                        </div>
+                    </div>
+
+                    <!-- Graph Side -->
+                    <div class="lg:col-span-3 glass-panel p-6 rounded-2xl flex flex-col justify-center items-center relative group"
+                        data-aos="fade-left">
+                        <h3 class="text-lg font-bold text-white mb-4">شكل (3-1): منحنى الطلب</h3>
+
+                        <div
+                            class="w-full relative bg-slate-900/50 rounded-xl border border-slate-700 p-4 overflow-hidden">
+                            <svg viewBox="-40 -20 500 400" class="w-full h-auto max-h-[400px] relative z-10"
+                                style="overflow: visible;">
+                                <defs>
+                                    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6"
+                                        markerHeight="6" orient="auto">
+                                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
+                                    </marker>
+                                </defs>
+
+                                <!-- Axes -->
+                                <line x1="40" y1="320" x2="400" y2="320" stroke="#94a3b8" stroke-width="2"
+                                    marker-end="url(#arrow)" /> <!-- X: Qty -->
+                                <line x1="40" y1="320" x2="40" y2="20" stroke="#94a3b8" stroke-width="2"
+                                    marker-end="url(#arrow)" /> <!-- Y: Price -->
+
+                                <!-- Labels -->
+                                <text x="400" y="350" fill="#94a3b8" font-size="14" font-weight="bold"
+                                    text-anchor="middle">الكمية المطلوبة</text>
+                                <text x="0" y="20" fill="#94a3b8" font-size="14" font-weight="bold" text-anchor="middle"
+                                    transform="rotate(-90, 20, 40)">الثمن</text>
+
+                                <!-- Plot Points: Price (2-12) mapped to Y, Qty (100-600) mapped to X -->
+                                <!-- Y Scale: 320 to 60. Max P=12, Min P=2. Step=30px approx per unit? Let's say 320 is P=0. P=12 is 320 - (12*20) = 80. -->
+                                <!-- X Scale: 40 to 360. Q=0 at 40. Q=600. Step=0.5. 40 + (600*0.5) = 340. -->
+
+                                <!-- Curve Path -->
+                                <path d="M 90 80 L 340 280" stroke="#8b5cf6" stroke-width="4" fill="none"
+                                    class="drop-shadow-[0_0_10px_rgba(139,92,246,0.5)]" />
+
+                                <!-- Points -->
+                                <!-- P=12, Q=100 -> Y=80, X=90 -->
+                                <circle cx="90" cy="80" r="6" fill="#020617" stroke="#8b5cf6" stroke-width="2" />
+                                <text x="100" y="80" fill="#e2e8f0" font-size="12">أ (12, 100)</text>
+
+                                <!-- P=2, Q=600 -> Y=280, X=340 -->
+                                <circle cx="340" cy="280" r="6" fill="#020617" stroke="#8b5cf6" stroke-width="2" />
+                                <text x="350" y="280" fill="#e2e8f0" font-size="12">و (2, 600)</text>
+
+                                <!-- Arrow indicating Slope -->
+                                <path d="M 150 120 L 150 160 L 140 160" stroke="#ef4444" stroke-width="2"
+                                    marker-end="url(#arrow)" fill="none" stroke-dasharray="4,4" />
+                                <text x="160" y="150" fill="#ef4444" font-size="12">ميل سالب (عكسي)</text>
+
+                            </svg>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <p class="text-sm text-slate-400">ينحدر المنحنى من أعلى اليسار إلى أسفل اليمين (ميل سالب)
+                            </p>
+                            <div class="flex justify-center gap-4 mt-2">
+                                <span class="text-xs bg-slate-800 px-2 py-1 rounded text-slate-500">أثر الدخل</span>
+                                <span class="text-xs bg-slate-800 px-2 py-1 rounded text-slate-500">أثر الإحلال</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exceptions -->
+                <div class="mt-16 glass-panel p-6 rounded-2xl bg-slate-800/30" data-aos="fade-up">
+                    <h3 class="text-xl font-bold text-white mb-6 text-center"><i
+                            class="fa-solid fa-triangle-exclamation text-yellow-500 ml-2"></i> استثناءات القانون (علاقة
+                        طردية)</h3>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="text-center">
+                            <div
+                                class="w-12 h-12 bg-slate-700/50 rounded-full flex items-center justify-center mx-auto mb-3 text-yellow-400">
+                                <i class="fa-solid fa-gem"></i>
+                            </div>
+                            <h4 class="font-bold text-white mb-2">سلع التظاهر</h4>
+                            <p class="text-xs text-slate-400">يشتريها الأغنياء لارتفاع سعرها للتباهي (سلع فبلن).</p>
+                        </div>
+                        <div class="text-center">
+                            <div
+                                class="w-12 h-12 bg-slate-700/50 rounded-full flex items-center justify-center mx-auto mb-3 text-blue-400">
+                                <i class="fa-solid fa-medal"></i>
+                            </div>
+                            <h4 class="font-bold text-white mb-2">السعر دليل الجودة</h4>
+                            <p class="text-xs text-slate-400">اعتقاد المستهلك أن السعر المرتفع يعني جودة أعلى.</p>
+                        </div>
+                        <div class="text-center">
+                            <div
+                                class="w-12 h-12 bg-slate-700/50 rounded-full flex items-center justify-center mx-auto mb-3 text-green-400">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+                            <h4 class="font-bold text-white mb-2">توقعات الأسعار</h4>
+                            <p class="text-xs text-slate-400">زيادة الطلب الحالي عند توقع ارتفاع الأسعار مستقبلاً.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Determinants (Grid) -->
+        <section id="determinants" class="py-20 px-6 relative">
+            <div
+                class="absolute inset-0 bg-gradient-to-b from-brand-dark via-slate-900 to-brand-dark opacity-80 pointer-events-none">
+            </div>
+            <div class="container mx-auto max-w-6xl relative z-10">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-3xl font-bold text-white mb-2">محددات الطلب (العوامل المؤثرة)</h2>
+                    <p class="text-slate-400">ما الذي يجعل المنحنى ينتقل بالكامل؟</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Income-->
+                    <div
+                        class="glass-panel p-6 rounded-2xl hover:-translate-y-2 transition-transform duration-300 group">
+                        <div class="flex justify-between items-start mb-4">
+                            <div
+                                class="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center text-green-400 text-2xl group-hover:bg-green-500 group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-money-bill-wave"></i>
+                            </div>
+                            <span class="text-xs font-bold bg-slate-800 px-2 py-1 rounded text-slate-400">الدخل</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-3">دخل المستهلك</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between border-b border-slate-700/50 pb-2">
+                                <span class="text-slate-300">سلع عادية (Normal)</span>
+                                <span class="text-green-400 font-bold">طردية (+)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-300">سلع دنيا (Inferior)</span>
+                                <span class="text-red-400 font-bold">عكسية (-)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tastes -->
+                    <div
+                        class="glass-panel p-6 rounded-2xl hover:-translate-y-2 transition-transform duration-300 group">
+                        <div class="flex justify-between items-start mb-4">
+                            <div
+                                class="w-12 h-12 bg-pink-500/20 rounded-xl flex items-center justify-center text-pink-400 text-2xl group-hover:bg-pink-500 group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-heart"></i>
+                            </div>
+                            <span class="text-xs font-bold bg-slate-800 px-2 py-1 rounded text-slate-400">الذوق</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-3">ذوق المستهلك</h3>
+                        <p class="text-sm text-slate-400">علاقة <strong class="text-green-400">طردية</strong>. تغير
+                            الذوق لصالح السلعة يزيد الطلب عليها.</p>
+                    </div>
+
+                    <!-- Other Goods Price -->
+                    <div
+                        class="glass-panel p-6 rounded-2xl hover:-translate-y-2 transition-transform duration-300 group">
+                        <div class="flex justify-between items-start mb-4">
+                            <div
+                                class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center text-blue-400 text-2xl group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-tags"></i>
+                            </div>
+                            <span class="text-xs font-bold bg-slate-800 px-2 py-1 rounded text-slate-400">أسعار
+                                أخرى</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-3">أثمان السلع الأخرى</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between border-b border-slate-700/50 pb-2">
+                                <span class="text-slate-300">بديلة (شاي/بن)</span>
+                                <span class="text-green-400 font-bold">طردية (+)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-300">مكملة (سيارة/بنزين)</span>
+                                <span class="text-red-400 font-bold">عكسية (-)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Change in Qty vs Change in Demand -->
+        <section id="changes" class="py-24 px-6 bg-slate-900/40">
+            <div class="container mx-auto max-w-6xl">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+
+                    <!-- Text Explanation -->
+                    <div data-aos="fade-right">
+                        <h2 class="text-3xl font-bold text-white mb-6">التغير في <span
+                                class="text-brand-accent">الكمية</span> vs التغير في <span
+                                class="text-brand-accent">الطلب</span></h2>
+
+                        <div class="space-y-6">
+                            <!-- Qty Change -->
+                            <div class="bg-slate-800/50 p-6 rounded-2xl border-r-4 border-blue-500">
+                                <h3 class="text-xl font-bold text-white mb-2">1. التغير في الكمية المطلوبة</h3>
+                                <ul class="text-sm text-slate-300 space-y-2 list-disc list-inside">
+                                    <li><strong>السبب:</strong> تغير <span class="text-blue-400">ثمن السلعة</span> فقط.
+                                    </li>
+                                    <li><strong>النتيجة:</strong> تحرك على <span class="text-blue-400">نفس
+                                            المنحنى</span> (تمدد/انكماش).</li>
+                                </ul>
+                            </div>
+
+                            <!-- Demand Change -->
+                            <div class="bg-slate-800/50 p-6 rounded-2xl border-r-4 border-green-500">
+                                <h3 class="text-xl font-bold text-white mb-2">2. التغير في الطلب</h3>
+                                <ul class="text-sm text-slate-300 space-y-2 list-disc list-inside">
+                                    <li><strong>السبب:</strong> تغير <span class="text-green-400">العوامل الأخرى</span>
+                                        (دخل، ذوق...).</li>
+                                    <li><strong>النتيجة:</strong> انتقال <span class="text-green-400">المنحنى
+                                            بالكامل</span> (يمين/يسار).</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Visual -->
+                    <div class="glass-panel p-8 rounded-3xl relative" data-aos="fade-left">
+                        <div class="absolute top-4 right-4 flex gap-2">
+                            <button onclick="updateGraph('movement')"
+                                class="px-3 py-1 text-xs rounded-full bg-blue-500 text-white hover:bg-blue-600 transition">تغير
+                                الكمية</button>
+                            <button onclick="updateGraph('shift')"
+                                class="px-3 py-1 text-xs rounded-full bg-green-500 text-white hover:bg-green-600 transition">تغير
+                                الطلب</button>
+                        </div>
+
+                        <!-- Simple Animated SVG Placeholder for now -->
+                        <svg viewBox="0 0 300 200" class="w-full h-auto mt-8">
+                            <!-- Axes -->
+                            <line x1="30" y1="170" x2="270" y2="170" stroke="#64748b" stroke-width="2" />
+                            <line x1="30" y1="170" x2="30" y2="30" stroke="#64748b" stroke-width="2" />
+
+                            <!-- Base Curve -->
+                            <path id="baseCurve" d="M 50 50 L 250 150" stroke="#475569" stroke-width="3" fill="none"
+                                class="transition-all duration-700" />
+
+                            <!-- Animation Elements (controlled by JS) -->
+                            <circle id="point" cx="150" cy="100" r="6" fill="#8b5cf6"
+                                class="opacity-0 transition-opacity" />
+                            <path id="shiftCurve" d="M 90 50 L 290 150" stroke="#10b981" stroke-width="3"
+                                stroke-dasharray="5,5" class="opacity-0 transition-opacity" />
+                        </svg>
+
+                        <div id="graph-caption" class="text-center text-sm text-slate-400 mt-4 h-10">اضغط على الأزرار
+                            أعلاه لتوضيح الفرق</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Supply (Combined similar structure) -->
+        <section id="supply" class="py-24 px-6 bg-slate-900/40 border-t border-slate-800">
+            <div class="container mx-auto max-w-6xl text-center">
+                <h2 class="text-3xl font-bold text-white mb-8">ثانياً: العرض (Supply)</h2>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Supply Definition -->
+                    <div class="glass-panel p-6 rounded-2xl text-right" data-aos="fade-up">
+                        <div
+                            class="w-12 h-12 bg-amber-500/20 rounded-xl flex items-center justify-center text-amber-500 text-2xl mb-4">
+                            <i class="fa-solid fa-industry"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">تعريف العرض</h3>
+                        <p class="text-slate-300 text-sm">الكميات التي يكون المنتجون <strong
+                                class="text-amber-500">مستعدين لبيعها</strong> عند أسعار مختلفة.</p>
+                        <p class="text-xs text-slate-500 mt-2">* ليس الإنتاج الفعلي، بل ما يعرض للبيع.</p>
+                    </div>
+
+                    <!-- Supply Law -->
+                    <div class="glass-panel p-6 rounded-2xl text-right" data-aos="fade-up" data-aos-delay="100">
+                        <div
+                            class="w-12 h-12 bg-amber-500/20 rounded-xl flex items-center justify-center text-amber-500 text-2xl mb-4">
+                            <i class="fa-solid fa-arrow-up-right-dots"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">قانون العرض</h3>
+                        <p class="text-slate-300 text-sm">علاقة <strong class="text-amber-500">طردية</strong> بين الثمن
+                            والكمية المعروضة.</p>
+                        <div
+                            class="mt-4 h-24 bg-slate-900/50 rounded-lg flex items-center justify-center relative overflow-hidden">
+                            <!-- Mini Graph -->
+                            <svg viewBox="0 0 100 60" class="w-full h-full p-2">
+                                <path d="M 10 50 L 90 10" stroke="#f59e0b" stroke-width="2" fill="none" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QA Section Link -->
+        <section class="py-16 px-6 bg-gradient-to-t from-slate-900 via-slate-900 to-transparent relative z-20">
+            <div class="container mx-auto max-w-4xl text-center" data-aos="fade-up">
+                <div
+                    class="glass-panel p-10 rounded-3xl border border-brand-accent/30 shadow-2xl shadow-brand-accent/20">
+                    <div
+                        class="w-20 h-20 bg-brand-accent/10 rounded-full flex items-center justify-center mx-auto mb-6 animate-[pulse_4s_infinite]">
+                        <i class="fa-solid fa-graduation-cap text-4xl text-brand-accent"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-white mb-4">اختبر فهمك للسوق</h2>
+                    <p class="text-slate-300 mb-8 max-w-xl mx-auto">
+                        أسئلة تفاعلية حول قوانين الطلب والعرض، انتقالات المنحنيات، والمرونة.
+                    </p>
+                    <a href="QA/index.html"
+                        class="inline-flex items-center gap-3 px-8 py-4 bg-brand-accent text-slate-900 rounded-xl font-bold text-lg hover:bg-white hover:scale-105 transition-all shadow-lg hover:shadow-brand-accent/50 group">
+                        <span>ابدأ الاختبار الآن</span>
+                        <i class="fa-solid fa-arrow-left group-hover:-translate-x-2 transition-transform"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-10 bg-slate-900 border-t border-slate-800 text-center relative z-10">
+        <div class="container mx-auto px-6">
+            <p class="text-slate-500 mb-4">تم تطوير هذا المحتوى التعليمي ليوافق المنهج الدراسي - م. اسامة زينهم</p>
+            <p class="text-slate-600 text-sm mt-2">&copy; 2025 مبادئ الاقتصاد الجزئي</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        AOS.init({ once: true, duration: 800, offset: 100 });
+
+        // Navbar Scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-lg', 'bg-slate-900/95');
+                nav.classList.remove('bg-slate-900/80');
+            } else {
+                nav.classList.remove('shadow-lg', 'bg-slate-900/95');
+                nav.classList.add('bg-slate-900/80');
+            }
+        });
+
+        // Simple Graph Animation Logic
+        function updateGraph(type) {
+            const point = document.getElementById('point');
+            const shiftCurve = document.getElementById('shiftCurve');
+            const caption = document.getElementById('graph-caption');
+            const baseCurve = document.getElementById('baseCurve');
+
+            if (type === 'movement') {
+                shiftCurve.classList.add('opacity-0');
+                baseCurve.setAttribute('stroke', '#475569');
+                point.classList.remove('opacity-0');
+
+                // Animate Point
+                let pos = 0;
+                const anim = setInterval(() => {
+                    pos = pos === 0 ? 1 : 0;
+                    point.setAttribute('cx', pos ? 250 : 50);
+                    point.setAttribute('cy', pos ? 150 : 50);
+                }, 1000);
+                setTimeout(() => clearInterval(anim), 3000);
+
+                caption.innerHTML = "التغير في الكمية: تحرك على <span class='text-blue-400 font-bold'>نفس المنحنى</span> بسبب تغير السعر.";
+            }
+            else if (type === 'shift') {
+                point.classList.add('opacity-0');
+                shiftCurve.classList.remove('opacity-0');
+                baseCurve.setAttribute('stroke', '#475569'); // Dim base
+
+                caption.innerHTML = "التغير في الطلب: انتقال <span class='text-green-400 font-bold'>المنحنى بالكامل</span> بسبب العوامل الأخرى.";
+            }
+        }
+
+        // Particle Canvas (Simplified from lec02)
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = 'rgba(139, 92, 246, 0.1)';
+            for (let i = 0; i < 30; i++) {
+                ctx.beginPath();
+                ctx.arc(Math.random() * width, Math.random() * height, Math.random() * 2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+        setInterval(drawParticles, 5000); // Low freq update for static background feel
+
+    </script>
+
+
+</body>
+
+</html>
