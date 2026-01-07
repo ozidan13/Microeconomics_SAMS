@@ -204,6 +204,64 @@
             </p>
         </header>
 
+        <!-- Symbol Legend -->
+        <section class="mb-12 glass-card rounded-2xl p-6" data-aos="fade-up">
+            <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-book text-brand-primary"></i>
+                دليل الرموز المستخدمة
+            </h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 text-sm">
+                <div class="bg-brand-bg/40 rounded-lg p-3 text-center">
+                    <span class="text-brand-primary font-bold block">ك</span>
+                    <span class="text-slate-400">(الكمية)</span>
+                </div>
+                <div class="bg-brand-bg/40 rounded-lg p-3 text-center">
+                    <span class="text-brand-primary font-bold block">ث</span>
+                    <span class="text-slate-400">(الثمن/السعر)</span>
+                </div>
+                <div class="bg-brand-bg/40 rounded-lg p-3 text-center">
+                    <span class="text-brand-primary font-bold block">م.ط.س</span>
+                    <span class="text-slate-400">(مرونة الطلب السعرية)</span>
+                </div>
+                <div class="bg-brand-bg/40 rounded-lg p-3 text-center">
+                    <span class="text-brand-primary font-bold block">م.ع.س</span>
+                    <span class="text-slate-400">(مرونة العرض السعرية)</span>
+                </div>
+                <div class="bg-brand-bg/40 rounded-lg p-3 text-center">
+                    <span class="text-brand-primary font-bold block">ت.ك</span>
+                    <span class="text-slate-400">(التكاليف الكلية)</span>
+                </div>
+                <div class="bg-brand-bg/40 rounded-lg p-3 text-center">
+                    <span class="text-brand-primary font-bold block">ت.ث</span>
+                    <span class="text-slate-400">(التكاليف الثابتة)</span>
+                </div>
+                <div class="bg-brand-bg/40 rounded-lg p-3 text-center">
+                    <span class="text-brand-primary font-bold block">ت.م</span>
+                    <span class="text-slate-400">(التكاليف المتغيرة)</span>
+                </div>
+                <div class="bg-brand-bg/40 rounded-lg p-3 text-center">
+                    <span class="text-brand-primary font-bold block">ت.ح</span>
+                    <span class="text-slate-400">(التكلفة الحدية)</span>
+                </div>
+                <div class="bg-brand-bg/40 rounded-lg p-3 text-center">
+                    <span class="text-brand-primary font-bold block">م.ت.ك</span>
+                    <span class="text-slate-400">(متوسط التكاليف الكلية)</span>
+                </div>
+                <div class="bg-brand-bg/40 rounded-lg p-3 text-center">
+                    <span class="text-brand-primary font-bold block">م.ت.م</span>
+                    <span class="text-slate-400">(متوسط التكاليف المتغيرة)</span>
+                </div>
+                <div class="bg-brand-bg/40 rounded-lg p-3 text-center">
+                    <span class="text-brand-primary font-bold block">إ.ك</span>
+                    <span class="text-slate-400">(الإيراد الكلي)</span>
+                </div>
+                <div class="bg-brand-bg/40 rounded-lg p-3 text-center">
+                    <span class="text-brand-primary font-bold block">Δ</span>
+                    <span class="text-slate-400">(التغير/الفرق)</span>
+                </div>
+            </div>
+        </section>
+
         <!-- 1. Elasticity Section -->
         <section id="elasticity" class="mb-20 scroll-mt-24">
             <div class="flex items-center gap-4 mb-8">
@@ -275,8 +333,9 @@
                         <div class="bg-black/30 rounded-xl p-4 text-slate-200">
                             <strong class="text-brand-primary block mb-2">الحل:</strong>
                             <div class="space-y-2 text-sm">
-                                <p>• ك<sub>1</sub> = 100، ث<sub>1</sub> = 10، ك<sub>2</sub> = 60، ث<sub>2</sub> = 12</p>
-                                <p>• م.ط.س = (60 - 100) ÷ (12 - 10) × (10 ÷ 100)</p>
+                                <p>• ك (الكمية)<sub>1</sub> = 100، ث (السعر)<sub>1</sub> = 10، ك<sub>2</sub> = 60،
+                                    ث<sub>2</sub> = 12</p>
+                                <p>• م.ط.س (مرونة الطلب السعرية) = (60 - 100) ÷ (12 - 10) × (10 ÷ 100)</p>
                                 <p>• م.ط.س = (-40 ÷ 2) × 0.1 = -20 × 0.1 = <strong
                                         class="text-brand-primary">-2</strong></p>
                                 <p class="text-green-400 mt-2">∴ الطلب مرن (|م.ط.س| > 1) - تغير السعر 1% يغير الكمية 2%
@@ -298,7 +357,8 @@
                             <div class="space-y-2 text-sm">
                                 <p>• التغير النسبي في الكمية = (100 - 80) ÷ 80 = 0.25 (25%)</p>
                                 <p>• التغير النسبي في السعر = -30% = -0.3</p>
-                                <p>• م.ط.س = 0.25 ÷ (-0.3) = <strong class="text-brand-primary">-0.83</strong></p>
+                                <p>• م.ط.س (مرونة الطلب السعرية) = 0.25 ÷ (-0.3) = <strong
+                                        class="text-brand-primary">-0.83</strong></p>
                                 <p class="text-yellow-400 mt-2">∴ الطلب غير مرن (|م.ط.س| < 1)</p>
                             </div>
                         </div>
@@ -315,7 +375,7 @@
                         <div class="bg-black/30 rounded-xl p-4 text-slate-200">
                             <strong class="text-brand-primary block mb-2">الحل:</strong>
                             <div class="space-y-2 text-sm">
-                                <p>• م.ط.س = نسبة التغير في الكمية ÷ نسبة التغير في السعر</p>
+                                <p>• م.ط.س (مرونة الطلب السعرية) = نسبة التغير في الكمية ÷ نسبة التغير في السعر</p>
                                 <p>• 1.2 = نسبة التغير في الكمية ÷ 0.2</p>
                                 <p>• نسبة التغير في الكمية = 1.2 × 0.2 = <strong class="text-brand-primary">24%</strong>
                                 </p>
@@ -470,9 +530,10 @@
                         <div class="bg-black/30 rounded-xl p-4 text-slate-200">
                             <strong class="text-brand-primary block mb-2">الحل:</strong>
                             <div class="space-y-2 text-sm">
-                                <p>• ك<sub>1</sub> = 400، ث<sub>1</sub> = 20، ك<sub>2</sub> = 600، ث<sub>2</sub> = 25
+                                <p>• ك (الكمية)<sub>1</sub> = 400، ث (السعر)<sub>1</sub> = 20، ك<sub>2</sub> = 600،
+                                    ث<sub>2</sub> = 25
                                 </p>
-                                <p>• م.ع.س = (600 - 400) ÷ (25 - 20) × (20 ÷ 400)</p>
+                                <p>• م.ع.س (مرونة العرض السعرية) = (600 - 400) ÷ (25 - 20) × (20 ÷ 400)</p>
                                 <p>• م.ع.س = (200 ÷ 5) × 0.05 = 40 × 0.05 = <strong
                                         class="text-brand-primary">2</strong></p>
                                 <p class="text-green-400 mt-2">∴ العرض مرن (م.ع.س > 1) - تغير السعر 1% يغير الكمية 2%
@@ -494,7 +555,8 @@
                             <div class="space-y-2 text-sm">
                                 <p>• التغير النسبي في الكمية = (100 - 120) ÷ 120 = -0.166 (-16.6%)</p>
                                 <p>• التغير النسبي في السعر = -40% = -0.4</p>
-                                <p>• م.ع.س = -0.166 ÷ (-0.4) = <strong class="text-brand-primary">0.42</strong></p>
+                                <p>• م.ع.س (مرونة العرض السعرية) = -0.166 ÷ (-0.4) = <strong
+                                        class="text-brand-primary">0.42</strong></p>
                                 <p class="text-yellow-400 mt-2">∴ العرض غير مرن (م.ع.س < 1)</p>
                             </div>
                         </div>
@@ -511,7 +573,7 @@
                         <div class="bg-black/30 rounded-xl p-4 text-slate-200">
                             <strong class="text-brand-primary block mb-2">الحل:</strong>
                             <div class="space-y-2 text-sm">
-                                <p>• م.ع.س = نسبة التغير في الكمية ÷ نسبة التغير في السعر</p>
+                                <p>• م.ع.س (مرونة العرض السعرية) = نسبة التغير في الكمية ÷ نسبة التغير في السعر</p>
                                 <p>• 0.5 = نسبة التغير في الكمية ÷ 0.28</p>
                                 <p>• نسبة التغير في الكمية = 0.5 × 0.28 = <strong
                                         class="text-brand-primary">14%</strong></p>
@@ -1118,12 +1180,21 @@
                             <table class="w-full text-sm">
                                 <thead>
                                     <tr class="border-b border-white/10">
-                                        <th class="p-2 text-brand-accent">ك</th>
-                                        <th class="p-2 text-brand-accent">ت.ك</th>
-                                        <th class="p-2 text-brand-accent">إ.ك</th>
-                                        <th class="p-2 text-brand-accent">ت.ح</th>
-                                        <th class="p-2 text-brand-accent">م.ت.ك</th>
-                                        <th class="p-2 text-brand-accent">م.ت.م</th>
+                                        <th class="p-2 text-brand-accent">ك<br><span
+                                                class="text-[10px] font-normal text-slate-500">(الكمية)</span></th>
+                                        <th class="p-2 text-brand-accent">ت.ك<br><span
+                                                class="text-[10px] font-normal text-slate-500">(التكاليف الكلية)</span>
+                                        </th>
+                                        <th class="p-2 text-brand-accent">إ.ك<br><span
+                                                class="text-[10px] font-normal text-slate-500">(الإيراد الكلي)</span>
+                                        </th>
+                                        <th class="p-2 text-brand-accent">ت.ح<br><span
+                                                class="text-[10px] font-normal text-slate-500">(التكلفة الحدية)</span>
+                                        </th>
+                                        <th class="p-2 text-brand-accent">م.ت.ك<br><span
+                                                class="text-[10px] font-normal text-slate-500">(متوسط ت.ك)</span></th>
+                                        <th class="p-2 text-brand-accent">م.ت.م<br><span
+                                                class="text-[10px] font-normal text-slate-500">(متوسط ت.م)</span></th>
                                         <th class="p-2 text-brand-accent">الربح</th>
                                     </tr>
                                 </thead>
